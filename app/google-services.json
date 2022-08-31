@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1002656669763",
+    "project_id": "academicos-52b80",
+    "storage_bucket": "academicos-52b80.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1002656669763:android:3ff8c7409511ac4c9df4f6",
+        "android_client_info": {
+          "package_name": "robertorodrigues.curso.academicos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1002656669763-a7jij2csndrcla8ifqk0auotf2f6pp76.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "robertorodrigues.curso.academicos",
+            "certificate_hash": "e199d6e6777f32d53d80d1673ff853bb4bf80fae"
+          }
+        },
+        {
+          "client_id": "1002656669763-pkmtksqqi3hcho7n0o0aeco0m01drpnm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClJOEWJ-O5T7wJ_fS9p2iGW0oyS-7YGRc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1002656669763-pkmtksqqi3hcho7n0o0aeco0m01drpnm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

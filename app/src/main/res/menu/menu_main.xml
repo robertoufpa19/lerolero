@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item android:id="@+id/menu_conversas"
+        android:icon="@drawable/ic_conversas_24"
+        android:title="Conversas"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/menu_meus_anuncios"
+        android:title="Meus Anúncios"/>
+
+    <item android:id="@+id/menu_sobre"
+        android:title="Sobre"/>
+
+    <item
+        android:id="@+id/menuSair"
+        android:title="Sair"
+        app:showAsAction="never" />
+
+
+
+
+</menu>
