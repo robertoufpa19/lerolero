@@ -66,7 +66,7 @@ public class MensagensAdapter extends RecyclerView.Adapter<MensagensAdapter.MyVi
         Mensagem mensagem = mensagens.get(position);
 
 
-        
+
         String msg = mensagem.getMensagem();
         String imagem = mensagem.getImagem();
         String arquivo = mensagem.getArquivo();
