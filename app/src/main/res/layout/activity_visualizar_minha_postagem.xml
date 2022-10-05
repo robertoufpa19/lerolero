@@ -61,6 +61,7 @@
             app:srcCompat="@drawable/fotopadrao"
             android:src="@drawable/fotopadrao">
 
+
         </com.ortiz.touchview.TouchImageView>
 
         <LinearLayout
