@@ -74,7 +74,10 @@ public class MensagensAdapter extends RecyclerView.Adapter<MensagensAdapter.MyVi
 
         if(imagem != null){
 
-            Picasso.get().load(imagem).into( holder.imagem);
+
+            //Carregar imagem
+            String urlImagem = mensagem.getImagem();
+            Picasso.get().load( urlImagem ).into( holder.imagem);
 
             String nome = mensagem.getNome();
             if(!nome.isEmpty()){

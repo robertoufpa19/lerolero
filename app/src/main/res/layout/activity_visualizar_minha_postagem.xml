@@ -51,13 +51,17 @@
             android:textColor="@color/black"
             android:textSize="14sp" />
 
-        <ImageView
-            android:id="@+id/imageVisualizarMinhaFotoPostada"
+
+        <com.ortiz.touchview.TouchImageView
+            android:id="@+id/imageVisualizarMinhaFotoPostadaZoom"
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:layout_marginBottom="20dp"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/fotopadrao" />
+            app:srcCompat="@drawable/fotopadrao"
+            android:src="@drawable/fotopadrao">
+
+        </com.ortiz.touchview.TouchImageView>
 
         <LinearLayout
             android:layout_width="match_parent"

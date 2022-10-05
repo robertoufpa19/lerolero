@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
+import com.ortiz.touchview.TouchImageView;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -33,7 +34,9 @@ public class VisualizarMinhaPostagemActivity extends AppCompatActivity {
 
     private CircleImageView imagePerfilVisualizarMinhaPostagem;
     private TextView textNomeVisualizarMinhaPostagem, minhaDescricao, textQtdMinhasCurtida;
-    private ImageView imageVisualizarMinhaFotoPostada,  botaoComentarios;
+    private ImageView  botaoComentarios;
+
+    private TouchImageView imageVisualizarMinhaFotoPostada;
 
     private LikeButton botaoCurtida;
     private Usuario usuarioLogado;
@@ -180,7 +183,7 @@ public class VisualizarMinhaPostagemActivity extends AppCompatActivity {
     private void inicializarComponentes(){
         imagePerfilVisualizarMinhaPostagem = findViewById(R.id.imagePerfilVisualizarMinhaPostagem);
         textNomeVisualizarMinhaPostagem = findViewById(R.id.textNomeVisualizarMinhaPostagem);
-        imageVisualizarMinhaFotoPostada = findViewById(R.id.imageVisualizarMinhaFotoPostada);
+        imageVisualizarMinhaFotoPostada = findViewById(R.id.imageVisualizarMinhaFotoPostadaZoom);
         minhaDescricao = findViewById(R.id.textVisualizarMinhaDescricaoPostagem);
         textQtdMinhasCurtida = findViewById(R.id.textQtdMinhasCurtida);
         botaoCurtida = findViewById(R.id.botaoCurtidaMinhaPostagem);

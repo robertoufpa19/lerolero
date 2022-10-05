@@ -84,6 +84,9 @@ dependencies {
     implementation 'com.ogaclejapan.smarttablayout:library:2.0.0@aar'
     implementation 'com.ogaclejapan.smarttablayout:utils-v4:2.0.0@aar'
 
+    // zoom
+    implementation 'com.github.MikeOrtiz:TouchImageView:1.4.1'
+
 
 }
 

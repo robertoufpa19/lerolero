@@ -16,10 +16,14 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/1ecbbb92d0c18280e3261e6e2c8470b5/transformed/jetified-LikeButton-0.2.3/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/1ecbbb92d0c18280e3261e6e2c8470b5/transformed/jetified-LikeButton-0.2.3/AndroidManifest.xml" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-3/1ecbbb92d0c18280e3261e6e2c8470b5/transformed/jetified-LikeButton-0.2.3/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/78034ddd2defbeac28f0927cc0081efe/transformed/jetified-LikeButton-0.2.3/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/78034ddd2defbeac28f0927cc0081efe/transformed/jetified-LikeButton-0.2.3/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/78034ddd2defbeac28f0927cc0081efe/transformed/jetified-LikeButton-0.2.3/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.jd-alexander/LikeButton/0.2.3/fd79ebbb0028b5b488467fb5854ef3f14966032/LikeButton-0.2.3-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.jd-alexander/LikeButton/0.2.3/49f207bda426d37df5486e94fa0fda88544fd838/LikeButton-0.2.3-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

@@ -58,10 +58,11 @@
         <entry key="..\:/App prontos android studio/Academicos/app/src/main/res/menu/menu_botao_navegacao.xml" value="0.22083333333333333" />
         <entry key="..\:/App prontos android studio/Academicos/app/src/main/res/menu/menu_filtro.xml" value="0.27291666666666664" />
         <entry key="..\:/App prontos android studio/Academicos/app/src/main/res/menu/menu_main.xml" value="0.21743589743589745" />
+        <entry key="app/src/main/res/layout/activity_visualizar_minha_postagem.xml" value="0.17980072463768115" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
