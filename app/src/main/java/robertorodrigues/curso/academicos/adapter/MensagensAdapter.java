@@ -85,9 +85,12 @@ public class MensagensAdapter extends RecyclerView.Adapter<MensagensAdapter.MyVi
             }else {
                 holder.nome.setVisibility(View.GONE);
             }
+
             // esconder texto
             holder.mensagem.setVisibility(View.GONE);
+            // esconder arquivo
             holder.layoutMensagemArquivo.setVisibility(View.GONE);
+            holder.imagem.setVisibility(View.VISIBLE);
 
 
 
@@ -105,8 +108,18 @@ public class MensagensAdapter extends RecyclerView.Adapter<MensagensAdapter.MyVi
             holder.imagem.setVisibility(View.GONE);
             holder.layoutMensagemArquivo.setVisibility(View.GONE);
 
+            // esconder imagem
+            holder.imagem.setVisibility(View.GONE);
+            // esconder arquivo
+            holder.layoutMensagemArquivo.setVisibility(View.GONE);
+            holder.mensagem.setVisibility(View.VISIBLE);
+
         }else if (arquivo != null){
 
+            // esconder imagem
+            holder.imagem.setVisibility(View.GONE);
+            // esconder texto
+            holder.mensagem.setVisibility(View.GONE);
 
             holder.layoutMensagemArquivo.setVisibility(View.VISIBLE);
             holder.nomeArquivo.setText(arquivo);

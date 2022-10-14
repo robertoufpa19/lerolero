@@ -582,7 +582,7 @@ public class ChatActivity extends AppCompatActivity {
                     public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
 
                         double progresso = (100.0* snapshot.getBytesTransferred())/snapshot.getTotalByteCount();
-                        progressDialog.setMessage("Enviando: "+ (int)progresso+"");
+                        progressDialog.setMessage("Enviando: "+ (int)progresso+"%");
                     }
                 });
 
