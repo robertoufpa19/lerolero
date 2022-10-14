@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -133,6 +135,32 @@ public class ConversasFragment extends Fragment {
         database = ConfiguracaoFirebase.getFirebaseDatabase();
         conversasRef = database.child("conversas")
                 .child( identificadorUsuario );
+
+
+
+        // recuperar arquivo compartilhado - inicio
+        Bundle bundleArquivo = getActivity().getIntent().getExtras();
+
+        if(bundleArquivo != null) {
+
+            if (bundleArquivo.containsKey("compartilharImagem")) {
+                Uri imagemSelecionada = (Uri) getActivity().getIntent().getParcelableExtra("compartilharImagem");
+
+                Toast.makeText(getContext(), "Recuperou imagem", Toast.LENGTH_SHORT).show();
+
+
+            } else if (bundleArquivo.containsKey("compartilharPDF")) {
+                Uri pdfSelecionado = (Uri) getActivity().getIntent().getParcelableExtra("compartilharPDF");
+
+                Toast.makeText(getContext(), "Recuperou PDF", Toast.LENGTH_SHORT).show();
+            }
+
+        }else{
+
+             Toast.makeText(getContext(), "bundle nullo", Toast.LENGTH_SHORT).show();
+        }
+        // recuperar arquivo compartilhado - fim
+
 
         return view;
     }
