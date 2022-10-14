@@ -57,17 +57,32 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
 
-        <service android:name=".service.MyFirebaseMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <!--
- Defina o ícone padrão personalizado. Isso é usado quando nenhum ícone é definido para mensagens de notificação de entrada.
-  Veja README (https://goo.gl/l4GJaQ) para mais.
-        -->
+            <!-- receber e compartilhar imagem -->
+             <intent-filter>
+                 <action android:name="android.intent.action.SEND" />
+                 <category android:name="android.intent.category.DEFAULT" />
+                 <data android:mimeType="image/*" />
+             </intent-filter>
+
+        <!-- receber e compartilhar pdf-->
+     <intent-filter>
+         <action android:name="android.intent.action.SEND" />
+         <category android:name="android.intent.category.DEFAULT" />
+         <data android:mimeType="application/pdf" />
+     </intent-filter>
+
+</activity>
+
+<service android:name=".service.MyFirebaseMessagingService">
+    <intent-filter>
+        <action android:name="com.google.firebase.MESSAGING_EVENT" />
+    </intent-filter>
+</service>
+<!--
+Defina o ícone padrão personalizado. Isso é usado quando nenhum ícone é definido para mensagens de notificação de entrada.
+Veja README (https://goo.gl/l4GJaQ) para mais.
+-->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/logosemnomeacademicos" />
