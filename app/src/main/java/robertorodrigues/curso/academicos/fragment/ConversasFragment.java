@@ -138,6 +138,7 @@ public class ConversasFragment extends Fragment {
 
 
 
+        /*
         // recuperar arquivo compartilhado - inicio
         Bundle bundleArquivo = getActivity().getIntent().getExtras();
 
@@ -159,7 +160,7 @@ public class ConversasFragment extends Fragment {
 
              Toast.makeText(getContext(), "bundle nullo", Toast.LENGTH_SHORT).show();
         }
-        // recuperar arquivo compartilhado - fim
+        // recuperar arquivo compartilhado - fim */
 
 
         return view;

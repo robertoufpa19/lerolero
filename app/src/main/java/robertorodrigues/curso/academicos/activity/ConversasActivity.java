@@ -3,15 +3,20 @@ package robertorodrigues.curso.academicos.activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
+
+import java.util.ArrayList;
 
 import robertorodrigues.curso.academicos.R;
 import robertorodrigues.curso.academicos.fragment.ConversasFragment;
@@ -54,6 +59,36 @@ public class ConversasActivity extends AppCompatActivity {
 
         SmartTabLayout viewPagerTab = findViewById(R.id.viewPagerTab);
         viewPagerTab.setViewPager(viewPager);
+
+
+
+        // recuperar arquivo compartilhado - inicio
+        Bundle bundleArquivo = getIntent().getExtras();
+
+        if(bundleArquivo != null) {
+
+            if (bundleArquivo.containsKey("compartilharImagem")) {
+               // Uri imagemSelecionada = (Uri) getIntent().getParcelableExtra("compartilharImagem");
+                Uri imagemSelecionada = (Uri) bundleArquivo.getParcelable("compartilharImagem");
+
+                Toast.makeText(getApplicationContext(), "Recuperou imagem", Toast.LENGTH_SHORT).show();
+
+            } else if (bundleArquivo.containsKey("compartilharPdf")) {
+                //Uri pdfSelecionado = (Uri) getIntent().getParcelableExtra("compartilharPDF");
+                Uri pdfSelecionado = (Uri) bundleArquivo.getParcelable("compartilharPDF");
+                Toast.makeText(getApplicationContext(), "Recuperou PDF", Toast.LENGTH_SHORT).show();
+
+            }else if (bundleArquivo.containsKey("compartilharImagens")) {
+                ArrayList<Uri> imageUris = (ArrayList<Uri>) bundleArquivo.getParcelable("compartilharImagens");
+
+                Toast.makeText(getApplicationContext(), "lista de imagens", Toast.LENGTH_SHORT).show();
+            }
+
+        }else{
+
+            Toast.makeText(getApplicationContext(), "bundle nullo", Toast.LENGTH_SHORT).show();
+        }
+        // recuperar arquivo compartilhado - fim
 
     }
 
