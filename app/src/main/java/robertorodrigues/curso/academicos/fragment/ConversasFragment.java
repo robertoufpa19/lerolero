@@ -42,17 +42,17 @@ import robertorodrigues.curso.academicos.model.Usuario;
 
 public class ConversasFragment extends Fragment {
 
-    private RecyclerView recyclerViewConversas; // pedidos
-    private List<Conversa> listaConversas = new ArrayList<>(); //lista de pedidos
-    //private List<Pedido> listaPedidos = new ArrayList<>();
+    private RecyclerView recyclerViewConversas;
+    private List<Conversa> listaConversas = new ArrayList<>();
     private ConversasAdapter adapter;
     private DatabaseReference database;
     private DatabaseReference conversasRef;
     private ChildEventListener childEventListenerConversas;
     private Context con;
-    private ProgressDialog progressDialog;
+
 
     private String idUsuarioLogado;
+
 
 
     public ConversasFragment() {}
@@ -138,20 +138,21 @@ public class ConversasFragment extends Fragment {
 
 
 
-        /*
+
         // recuperar arquivo compartilhado - inicio
-        Bundle bundleArquivo = getActivity().getIntent().getExtras();
+       // Bundle bundleArquivo = getActivity().getIntent().getExtras();
+        Bundle bundle = getArguments();
+        if(bundle != null) {
 
-        if(bundleArquivo != null) {
-
-            if (bundleArquivo.containsKey("compartilharImagem")) {
+            if (bundle.containsKey("compartilharImagem")) {
                 Uri imagemSelecionada = (Uri) getActivity().getIntent().getParcelableExtra("compartilharImagem");
 
                 Toast.makeText(getContext(), "Recuperou imagem", Toast.LENGTH_SHORT).show();
 
+            }
 
-            } else if (bundleArquivo.containsKey("compartilharPDF")) {
-                Uri pdfSelecionado = (Uri) getActivity().getIntent().getParcelableExtra("compartilharPDF");
+            if (bundle.containsKey("compartilharPdf")) {
+                Uri pdfSelecionado = (Uri) getActivity().getIntent().getParcelableExtra("compartilharPdf");
 
                 Toast.makeText(getContext(), "Recuperou PDF", Toast.LENGTH_SHORT).show();
             }
@@ -160,7 +161,7 @@ public class ConversasFragment extends Fragment {
 
              Toast.makeText(getContext(), "bundle nullo", Toast.LENGTH_SHORT).show();
         }
-        // recuperar arquivo compartilhado - fim */
+        // recuperar arquivo compartilhado - fim
 
 
         return view;

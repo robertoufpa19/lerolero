@@ -62,6 +62,7 @@ public class ConversasActivity extends AppCompatActivity {
 
 
 
+        /*
         // recuperar arquivo compartilhado - inicio
         Bundle bundleArquivo = getIntent().getExtras();
 
@@ -88,7 +89,7 @@ public class ConversasActivity extends AppCompatActivity {
 
             Toast.makeText(getApplicationContext(), "bundle nullo", Toast.LENGTH_SHORT).show();
         }
-        // recuperar arquivo compartilhado - fim
+        // recuperar arquivo compartilhado - fim  */
 
     }
 

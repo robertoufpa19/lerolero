@@ -1,18 +1,29 @@
 package robertorodrigues.curso.academicos.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import robertorodrigues.curso.academicos.R;
+import robertorodrigues.curso.academicos.fragment.ConversasFragment;
 
 public class SplashActivity extends AppCompatActivity {
+
+    private ConstraintLayout constraintLeroLero;
+    private TextView textLeroLero;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +31,8 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         // getSupportActionBar().hide(); // esconder toolbar
+        constraintLeroLero = findViewById(R.id.constraintLeroLero);
+        textLeroLero = findViewById(R.id.textLeroLero);
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -40,44 +53,6 @@ public class SplashActivity extends AppCompatActivity {
 
 
     public void verificarCompartilhamentoArquivo(){
-
-       /* Intent intent = getIntent();
-        String buscarAcao = intent.getAction();
-        String buscarModelo = intent.getType();
-        if(buscarAcao.equals(Intent.ACTION_SEND) && buscarModelo != null){
-            if(buscarModelo.startsWith("image/*")){
-
-                Uri imagemURI = intent.getParcelableExtra(Intent.EXTRA_STREAM);
-
-                if(imagemURI != null){
-
-                    intent.putExtra("compartilharImagem", imagemURI);
-                    //falta enviar para o fragmento de conversas
-                    Intent intentConversas = new Intent(SplashActivity.this, ConversasActivity.class);
-                    startActivity(intentConversas);
-
-                }else{
-                    Toast.makeText(this, "nullo", Toast.LENGTH_SHORT).show();
-                }
-
-            }else if(buscarModelo.startsWith("application/pdf")){
-                Uri pdfURI = intent.getParcelableExtra(Intent.EXTRA_STREAM);
-
-                if(pdfURI != null){
-                    intent.putExtra("compartilharPDF", pdfURI);
-                    //falta enviar para o fragmento de conversas
-                    Intent intentConversas = new Intent(SplashActivity.this, ConversasActivity.class);
-                    startActivity(intentConversas);
-                }else{
-                    Toast.makeText(this, "nullo", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        }else{
-            abrirAutenticacao();
-        } */
-
-
 
         Intent intent = getIntent();
         String action = intent.getAction();
@@ -118,25 +93,36 @@ public class SplashActivity extends AppCompatActivity {
     public void handleSendImage(Intent intent) {
         Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
         if (imageUri != null) {
-            // Atualizar a interface do usuário para refletir a imagem que está sendo compartilhada
-           // Toast.makeText(this, "imagem recuperada", Toast.LENGTH_SHORT).show();
-            intent.putExtra("compartilharImagem", imageUri);
-            //falta enviar para o fragmento de conversas
-            Intent intentConversas = new Intent(SplashActivity.this, ConversasActivity.class);
-            startActivity(intentConversas);
+            textLeroLero.setVisibility(View.GONE);
+            // abrir fragment
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("compartilharImagem", imageUri);
+            ConversasFragment conversasFragment = new ConversasFragment();
+            conversasFragment.setArguments(bundle);
+            transaction.replace(R.id.constraintLeroLero, conversasFragment).commit();
+
+
+
         }
     }
 
     public void handleSendPdf(Intent intent) {
-        Uri pdfURI  = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+        Uri pdfUri  = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
 
-        if (pdfURI  != null) {
-            // Atualizar a interface do usuário para refletir a imagem que está sendo compartilhada
-           // Toast.makeText(this, "pdf recuperada", Toast.LENGTH_SHORT).show();
-            intent.putExtra("compartilharPdf", pdfURI);
-            //falta enviar para o fragmento de conversas
-            Intent intentConversas = new Intent(SplashActivity.this, ConversasActivity.class);
-            startActivity(intentConversas);
+        if (pdfUri  != null) {
+            textLeroLero.setVisibility(View.GONE);
+            // abrir fragment
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("compartilharPdf", pdfUri);
+            ConversasFragment conversasFragment = new ConversasFragment();
+            conversasFragment.setArguments(bundle);
+            transaction.replace(R.id.constraintLeroLero, conversasFragment).commit();
+
+
         }
     }
 
