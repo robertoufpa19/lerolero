@@ -88,7 +88,7 @@ public class ConversasFragment extends Fragment {
                                 List<Conversa> listaConversasAtualizada = adapter.getConversas();
                                 Conversa conversaSelecionada = listaConversasAtualizada .get(position); // seleciona conversa que foi buscada de forma correta
 
-                                // enviar informacoes de uma activity para outra
+                                // enviar informacoes de um fragment para uma activity
                                 Usuario usuario = new Usuario();
 
                                 String idUsuario = conversaSelecionada.getUsuarioExibicao().getIdUsuario();
@@ -144,21 +144,21 @@ public class ConversasFragment extends Fragment {
         Bundle bundle = getArguments();
         if(bundle != null) {
 
+            // recuperar conversa para compartilhar imagem
             if (bundle.containsKey("compartilharImagem")) {
-                Uri imagemSelecionada = (Uri) getActivity().getIntent().getParcelableExtra("compartilharImagem");
 
-                Toast.makeText(getContext(), "Recuperou imagem", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Recuperou imagem "+ bundle, Toast.LENGTH_SHORT).show();
 
             }
 
+            //recuperar conversa para compartilhar PDF
             if (bundle.containsKey("compartilharPdf")) {
-                Uri pdfSelecionado = (Uri) getActivity().getIntent().getParcelableExtra("compartilharPdf");
 
-                Toast.makeText(getContext(), "Recuperou PDF", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Recuperou PDF "+ bundle, Toast.LENGTH_SHORT).show();
             }
 
         }else{
-
+            //recuperar conversa padrão
              Toast.makeText(getContext(), "bundle nullo", Toast.LENGTH_SHORT).show();
         }
         // recuperar arquivo compartilhado - fim
