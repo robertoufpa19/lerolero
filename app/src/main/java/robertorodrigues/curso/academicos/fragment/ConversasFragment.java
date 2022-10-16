@@ -67,6 +67,9 @@ public class ConversasFragment extends Fragment {
 
         idUsuarioLogado = UsuarioFirebase.getIdUsuario();
 
+        // recuperar arquivo compartilhado - inicio
+        Bundle bundleArquivo = getArguments();
+
         //Configurar adapter
         adapter = new ConversasAdapter(listaConversas, getActivity());
 
@@ -105,14 +108,44 @@ public class ConversasFragment extends Fragment {
                                 usuario.setFotoUsuario(fotoUsuario);
                                 usuario.setTokenUsuario(token);
 
-                                Intent i = new Intent(getActivity(), ChatActivity.class);
-                                //  i.putExtra("chat",  conversaSelecionada.getUsuarioExibicao()); // usuario exibicao
-                                i.putExtra("chat",  usuario); // usuario exibicao
-                                startActivity( i );
 
-                                // mensagem visualizada e remove a notificacão de nova mensagem
-                                conversaSelecionada.setNovaMensagem("false");
-                                conversaSelecionada.salvarConversa();
+
+                                    // recuperar conversa para compartilhar imagem
+                                    if (bundleArquivo.containsKey("compartilharImagem")) {
+                                        Toast.makeText(getContext(), "Recuperou imagem "+ bundleArquivo, Toast.LENGTH_SHORT).show();
+
+                                        Bundle bundle = new Bundle();
+                                        bundle.putParcelable("compartilharImagem", bundleArquivo);
+
+                                        Intent i = new Intent(getActivity(), ChatActivity.class);
+                                        i.putExtra("chat", usuario); // usuario exibicao
+                                        startActivity( i );
+
+                                    }//recuperar conversa para compartilhar PDF
+                                    else if (bundleArquivo.containsKey("compartilharPdf")) {
+                                        Toast.makeText(getContext(), "Recuperou PDF "+ bundleArquivo, Toast.LENGTH_SHORT).show();
+
+                                        Bundle bundle = new Bundle();
+                                        bundle.putParcelable("compartilharPdf", bundleArquivo);
+
+                                        Intent i = new Intent(getActivity(), ChatActivity.class);
+                                        i.putExtra("chat", usuario); // usuario exibicao
+                                        startActivity( i );
+                                    }else{
+                                       // Toast.makeText(getContext(), "Padrão"+ bundleArquivo, Toast.LENGTH_SHORT).show();
+
+                                        Intent i = new Intent(getActivity(), ChatActivity.class);
+                                        //  i.putExtra("chat",  conversaSelecionada.getUsuarioExibicao()); // usuario exibicao
+                                        i.putExtra("chat",  usuario); // usuario exibicao
+                                        startActivity( i );
+
+                                        // mensagem visualizada e remove a notificacão de nova mensagem
+                                        conversaSelecionada.setNovaMensagem("false");
+                                        conversaSelecionada.salvarConversa();
+
+                                    }
+
+                                // recuperar arquivo compartilhado - fim
 
                             }
 
@@ -137,31 +170,6 @@ public class ConversasFragment extends Fragment {
                 .child( identificadorUsuario );
 
 
-
-
-        // recuperar arquivo compartilhado - inicio
-       // Bundle bundleArquivo = getActivity().getIntent().getExtras();
-        Bundle bundle = getArguments();
-        if(bundle != null) {
-
-            // recuperar conversa para compartilhar imagem
-            if (bundle.containsKey("compartilharImagem")) {
-
-                Toast.makeText(getContext(), "Recuperou imagem "+ bundle, Toast.LENGTH_SHORT).show();
-
-            }
-
-            //recuperar conversa para compartilhar PDF
-            if (bundle.containsKey("compartilharPdf")) {
-
-                Toast.makeText(getContext(), "Recuperou PDF "+ bundle, Toast.LENGTH_SHORT).show();
-            }
-
-        }else{
-            //recuperar conversa padrão
-             Toast.makeText(getContext(), "bundle nullo", Toast.LENGTH_SHORT).show();
-        }
-        // recuperar arquivo compartilhado - fim
 
 
         return view;

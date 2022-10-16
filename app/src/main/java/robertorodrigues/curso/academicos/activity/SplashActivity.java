@@ -82,11 +82,8 @@ public class SplashActivity extends AppCompatActivity {
         String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
         if (sharedText != null) {
             // Atualizar a interface do usuário para refletir o texto que está sendo compartilhado
-            Toast.makeText(this, "texto recuperado", Toast.LENGTH_SHORT).show();
-            intent.putExtra("compartilharTexto", sharedText);
-            //falta enviar para o fragmento de conversas
-            Intent intentConversas = new Intent(SplashActivity.this, ConversasActivity.class);
-            startActivity(intentConversas);
+           // Toast.makeText(this, "texto recuperado", Toast.LENGTH_SHORT).show();
+
         }
     }
 
@@ -131,10 +128,7 @@ public class SplashActivity extends AppCompatActivity {
         if (imageUris != null) {
             // Atualize a interface do usuário para refletir várias imagens sendo compartilhadas
             //Toast.makeText(this, "multiplas imagens", Toast.LENGTH_SHORT).show();
-            intent.putExtra("compartilharImagens", imageUris);
-            //falta enviar para o fragmento de conversas
-            Intent intentConversas = new Intent(SplashActivity.this, ConversasActivity.class);
-            startActivity(intentConversas);
+
         }
     }
 
