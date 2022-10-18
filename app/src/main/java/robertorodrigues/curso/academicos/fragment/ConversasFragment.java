@@ -112,24 +112,24 @@ public class ConversasFragment extends Fragment {
 
                                     // recuperar conversa para compartilhar imagem
                                     if (bundleArquivo.containsKey("compartilharImagem")) {
-                                        Toast.makeText(getContext(), "Recuperou imagem "+ bundleArquivo, Toast.LENGTH_SHORT).show();
-
-                                        Bundle bundle = new Bundle();
-                                        bundle.putParcelable("compartilharImagem", bundleArquivo);
+                                       // Toast.makeText(getContext(), "Recuperou imagem "+ bundleArquivo, Toast.LENGTH_SHORT).show();
+                                       //Bundle bundle = new Bundle();
+                                        //bundle.putParcelable("compartilharImagem", bundleArquivo);
 
                                         Intent i = new Intent(getActivity(), ChatActivity.class);
                                         i.putExtra("chat", usuario); // usuario exibicao
+                                        i.putExtra("compartilharImagem", bundleArquivo);
                                         startActivity( i );
 
                                     }//recuperar conversa para compartilhar PDF
                                     else if (bundleArquivo.containsKey("compartilharPdf")) {
-                                        Toast.makeText(getContext(), "Recuperou PDF "+ bundleArquivo, Toast.LENGTH_SHORT).show();
-
-                                        Bundle bundle = new Bundle();
-                                        bundle.putParcelable("compartilharPdf", bundleArquivo);
+                                       // Toast.makeText(getContext(), "Recuperou PDF "+ bundleArquivo, Toast.LENGTH_SHORT).show();
+                                       // Bundle bundle = new Bundle();
+                                       // bundle.putParcelable("compartilharPdf", bundleArquivo);
 
                                         Intent i = new Intent(getActivity(), ChatActivity.class);
                                         i.putExtra("chat", usuario); // usuario exibicao
+                                        i.putExtra("compartilharPdf", bundleArquivo);
                                         startActivity( i );
                                     }else{
                                        // Toast.makeText(getContext(), "Padrão"+ bundleArquivo, Toast.LENGTH_SHORT).show();

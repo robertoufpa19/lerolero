@@ -60,7 +60,7 @@ public class SplashActivity extends AppCompatActivity {
 
         if (Intent.ACTION_SEND.equals(action) && type != null) {
             if ("text/plain".equals(type)) {
-                handleSendText(intent); // Lidar com o texto que está sendo enviado
+               // handleSendText(intent); // Lidar com o texto que está sendo enviado
             } else if (type.startsWith("image/")) {
                 handleSendImage(intent); // Lidar com uma única imagem sendo enviada
             }else if (type.startsWith("application/pdf")) {
@@ -68,7 +68,7 @@ public class SplashActivity extends AppCompatActivity {
             }
         } else if (Intent.ACTION_SEND_MULTIPLE.equals(action) && type != null) {
             if (type.startsWith("image/")) {
-                handleSendMultipleImages(intent); // Manipula várias imagens sendo enviadas
+               // handleSendMultipleImages(intent); // Manipula várias imagens sendo enviadas
             }
         } else {
             // Lida com outras intenções, como iniciar na tela inicial
@@ -78,14 +78,6 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
-   public void handleSendText(Intent intent) {
-        String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
-        if (sharedText != null) {
-            // Atualizar a interface do usuário para refletir o texto que está sendo compartilhado
-           // Toast.makeText(this, "texto recuperado", Toast.LENGTH_SHORT).show();
-
-        }
-    }
 
     public void handleSendImage(Intent intent) {
         Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
@@ -128,6 +120,15 @@ public class SplashActivity extends AppCompatActivity {
         if (imageUris != null) {
             // Atualize a interface do usuário para refletir várias imagens sendo compartilhadas
             //Toast.makeText(this, "multiplas imagens", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+    public void handleSendText(Intent intent) {
+        String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+        if (sharedText != null) {
+            // Atualizar a interface do usuário para refletir o texto que está sendo compartilhado
+            // Toast.makeText(this, "texto recuperado", Toast.LENGTH_SHORT).show();
 
         }
     }

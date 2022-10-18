@@ -8,16 +8,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Bitmap;
-import android.net.ConnectivityManager;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +27,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,8 +39,11 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import retrofit2.Call;
@@ -125,6 +131,7 @@ public class ChatActivity extends AppCompatActivity {
 
 
         Bundle bundle = getIntent().getExtras();
+
         if(bundle != null){
 
             if(bundle.containsKey("usuarioSelecionadoAmigo")){
@@ -235,6 +242,7 @@ public class ChatActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
+        enviarArquivoCompartilhado();
 
     }
 
@@ -376,7 +384,9 @@ public class ChatActivity extends AppCompatActivity {
                 if(imagem != null){
 
                     //  imageGaleria.setImageBitmap(imagem);
-
+                    final ProgressDialog progressDialogImage = new ProgressDialog(this);
+                    progressDialogImage.setTitle("Enviando...");
+                    progressDialogImage.show();
 
                     // recuperar dados da imagem para o firebase
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -441,6 +451,7 @@ public class ChatActivity extends AppCompatActivity {
                                             salvarConversa(  idUsuarioDestinatario, idUsuarioRemetente,usuarioRemetente ,  mensagem, true);
 
                                             enviarNotificacao();
+                                            progressDialogImage.dismiss();
 
 
                                         } else if(bundleEnviarMensagem.containsKey("chat")){
@@ -467,6 +478,7 @@ public class ChatActivity extends AppCompatActivity {
                                             salvarConversa(  idUsuarioDestinatario, idUsuarioRemetente, usuarioRemetente,  mensagem, true);
 
                                             enviarNotificacao();
+                                            progressDialogImage.dismiss();
 
                                         }
 
@@ -482,6 +494,12 @@ public class ChatActivity extends AppCompatActivity {
 
 
 
+                        }
+                    }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                            double progresso = (100.0* snapshot.getBytesTransferred())/snapshot.getTotalByteCount();
+                            progressDialogImage.setMessage("Enviando: "+ (int)progresso + "" + "%");
                         }
                     });
 
@@ -587,6 +605,48 @@ public class ChatActivity extends AppCompatActivity {
                 });
 
     }
+
+
+
+    // recuperar arquivo compartilhado de outros apps
+    private void enviarArquivoCompartilhado(){
+        Bundle bundleImage = getIntent().getBundleExtra("compartilharImagem");
+        Bundle bundlePdf = getIntent().getBundleExtra("compartilharPdf");
+
+        if(bundleImage != null ){
+            if(bundleImage.containsKey("compartilharImagem")){
+                Toast.makeText(this, "imagem recuperado", Toast.LENGTH_SHORT).show();
+
+                // abri layout para a imagem compartilhada
+                BottomSheetDialog sheetDialog = new BottomSheetDialog(ChatActivity.this);
+                View bottomSheetView = LayoutInflater
+                        .from(ChatActivity.this)
+                        .inflate(R.layout.adapter_imagem_compartilhada, null);
+                sheetDialog.setContentView(bottomSheetView);
+                sheetDialog.setCancelable(true);
+
+                ImageView recuperarImagemCompaartilhada = bottomSheetView.findViewById(R.id.imageCompartilhada);
+
+
+                sheetDialog.setContentView(bottomSheetView);
+                sheetDialog.show();
+
+            }
+        }else{
+            Toast.makeText(this, " imagem Nullo", Toast.LENGTH_SHORT).show();
+        }
+
+        if(bundlePdf != null ){
+            if(bundlePdf.containsKey("compartilharPdf")){
+                Toast.makeText(this, "pdf recuperado", Toast.LENGTH_SHORT).show();
+            }
+        }else{
+            Toast.makeText(this, "pdf Nullo", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
 
     @Override
     protected void onStart() {
