@@ -10,60 +10,45 @@
     tools:context=".activity.ConversasActivity">
 
 
-    <com.ogaclejapan.smarttablayout.SmartTabLayout
-        android:id="@+id/viewPagerTab"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/purple_500"
+    <!-- TODO: Update blank fragment layout -->
+    <include
+        android:id="@+id/include17"
+        layout="@layout/toobar2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:stl_clickable="false"
-        app:stl_defaultTabTextAllCaps="false"
-        app:stl_defaultTabTextColor="@color/white"
-        app:stl_defaultTabTextHorizontalPadding="16dp"
-        app:stl_defaultTabTextMinWidth="0dp"
-        app:stl_defaultTabTextSize="18sp"
-        app:stl_distributeEvenly="true"
-        app:stl_dividerColor="@android:color/transparent"
-        app:stl_dividerThickness="1dp"
-        app:stl_drawDecorationAfterTab="false"
-        app:stl_indicatorAlwaysInCenter="false"
-        app:stl_indicatorColor="#FFF"
-        app:stl_indicatorCornerRadius="2dp"
-        app:stl_indicatorGravity="bottom"
-        app:stl_indicatorInFront="false"
-        app:stl_indicatorInterpolation="smart"
-        app:stl_indicatorThickness="4dp"
-        app:stl_indicatorWidth="auto"
-        app:stl_indicatorWithoutPadding="false"
-        app:stl_overlineColor="@color/white"
-        app:stl_overlineThickness="0dp"
-        app:stl_titleOffset="24dp"
-        app:stl_underlineColor="@color/white"
-        app:stl_underlineThickness="1dp"
-        tools:ignore="SpeakableTextPresentCheck" />
-
-    <ImageView
-        android:id="@+id/imageVoltarConversas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="11dp"
-
-        android:src="@drawable/ic_back_activity_preto_24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        app:elevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include17">
+
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_Layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            app:tabIndicatorColor="@color/colorPrimary"
+            app:tabInlineLabel="true"
+
+            app:tabMode="fixed"
+            android:textStyle="bold"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager"
+        android:id="@+id/view_Pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewPagerTab"
-        tools:ignore="SpeakableTextPresentCheck" />
+        app:layout_constraintTop_toBottomOf="@+id/appbar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

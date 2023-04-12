@@ -8,6 +8,10 @@ public class Mensagem {
     private String imagem;
     private String arquivo;
 
+    private String horaConversa;
+    private String dataConversa;
+
+
 
     public Mensagem() {
         this.setNome("");
@@ -51,5 +55,21 @@ public class Mensagem {
 
     public void setArquivo(String arquivo) {
         this.arquivo = arquivo;
+    }
+
+    public String getHoraConversa() {
+        return horaConversa;
+    }
+
+    public void setHoraConversa(String horaConversa) {
+        this.horaConversa = horaConversa;
+    }
+
+    public String getDataConversa() {
+        return dataConversa;
+    }
+
+    public void setDataConversa(String dataConversa) {
+        this.dataConversa = dataConversa;
     }
 }

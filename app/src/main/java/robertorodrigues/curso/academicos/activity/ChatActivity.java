@@ -6,16 +6,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,9 +41,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.ortiz.touchview.TouchImageView;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,6 +64,8 @@ import robertorodrigues.curso.academicos.api.NotificacaoService;
 import robertorodrigues.curso.academicos.helper.ConfiguracaoFirebase;
 import robertorodrigues.curso.academicos.helper.UsuarioFirebase;
 import robertorodrigues.curso.academicos.model.Conversa;
+import robertorodrigues.curso.academicos.model.DataAtual;
+import robertorodrigues.curso.academicos.model.HoraAtual;
 import robertorodrigues.curso.academicos.model.Mensagem;
 import robertorodrigues.curso.academicos.model.Notificacao;
 import robertorodrigues.curso.academicos.model.NotificacaoDados;
@@ -177,6 +186,249 @@ public class ChatActivity extends AppCompatActivity {
 
                 recuperarTokenDestinatario();
 
+                // compartilhar arquivos
+            }else if (bundle.containsKey("compartilharImagem") ) {
+                // recuperar dados da empresa que mandou mensagem  ou usuario
+                Conversa conversaSelecionada = (Conversa) getIntent().getParcelableExtra("compartilharImagem");
+                idUsuarioDestinatario = conversaSelecionada.getIdDestinatario();
+                nomeUsuario = conversaSelecionada.getNomeUsuario();
+                fotoUsuario = conversaSelecionada.getFotoUsuario();
+                textViewNome.setText(nomeUsuario);
+                if (fotoUsuario.equals("")) {
+                    Log.d("null ", "foto vazia");
+
+                } else {
+                    Picasso.get()
+                            .load(fotoUsuario)
+                            .into(circleImageViewFoto);
+                }
+                // salvar dados usuario remetente
+                nomeUsuario = conversaSelecionada.getNomeUsuario();
+                idUsuarioRemetente = conversaSelecionada.getIdRemetente();
+
+                DatabaseReference databaseReferenceEmpresa = usuarioRef
+                        .child("usuario")
+                        .child(idUsuarioRemetente)
+                        .child("urlImagem");
+                databaseReferenceEmpresa.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String fotoUsuarioRef = snapshot.getValue().toString();
+                        fotoUsuario = fotoUsuarioRef;
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+                recuperarTokenDestinatario();
+
+                ViewGroup viewGroup = findViewById(android.R.id.content);
+                ImageView  buttonNao,buttonSim;
+                TouchImageView imagemCompartilhada;
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                View viewLayout = LayoutInflater.from(this)
+                        .inflate(R.layout.dialog_layout_compartilhar_arquivo, viewGroup, false);
+                builder.setView(viewLayout);
+                builder.setCancelable(true);
+                builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+                        finish();
+                    }
+                });
+
+                buttonSim = viewLayout.findViewById(R.id.buttonCompartilharDialog);
+                buttonNao = viewLayout.findViewById(R.id.buttonNaoCompatilharDialog);
+                imagemCompartilhada = viewLayout.findViewById(R.id.compartilharArquivoImage);
+                final AlertDialog dialogLayout = builder.create();
+
+                dialogLayout.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                Picasso.get()
+                        .load(conversaSelecionada.getArquivoCompartilhado())
+                        .into(imagemCompartilhada);
+                buttonSim.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        Bitmap imagem = null;
+                        try {
+                            imagem = MediaStore.Images.Media.getBitmap(getContentResolver(), conversaSelecionada.getArquivoCompartilhado());
+
+
+                            if (imagem != null) {
+                                //  imageGaleria.setImageBitmap(imagem);
+                                //  imageGaleria.setImageBitmap(imagem);
+                                final ProgressDialog progressDialogImage = new ProgressDialog(ChatActivity.this);
+                                progressDialogImage.setTitle("Enviando...");
+                                progressDialogImage.show();
+                                // recuperar dados da imagem para o firebase
+                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                imagem.compress(Bitmap.CompressFormat.JPEG, 70, baos);
+                                byte[] dadosImagem = baos.toByteArray();
+                                // cria nome que não se repete
+                                String nomeImagem = UUID.randomUUID().toString();
+                                // configurar referencia do firebase
+                                final StorageReference imageRef = storage.child("imagens")
+                                        .child("fotos")
+                                        .child(idUsuarioRemetente)
+                                        .child(nomeImagem);
+                                UploadTask uploadTask = imageRef.putBytes(dadosImagem);
+                                uploadTask.addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.d("Erro", "Erro ao fazer upload");
+
+                                        //Toast.makeText(ChatActivity.this, "Erro ao fazer upload da imagem!", Toast.LENGTH_SHORT).show();
+                                    }
+                                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                        // String dowloadUrl = taskSnapshot.getDownloadUrl().toString();
+                                        //teste para nova versão
+                                        imageRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Uri> task) {
+                                                String dowloadUrl = task.getResult().toString();
+                                                Mensagem mensagem = new Mensagem();
+                                                mensagem.setIdUsuario(idUsuarioRemetente);
+                                                //mensagem.setMensagem("imagem.jpeg");
+                                                mensagem.setImagem(dowloadUrl);
+                                                mensagem.setHoraConversa(HoraAtual.horaAtual());
+                                                mensagem.setDataConversa(DataAtual.dataAtual());
+                                                //Salvar mensagem para o remetente
+                                                salvarMensagem(idUsuarioRemetente, idUsuarioDestinatario, mensagem);
+                                                //Salvar mensagem para o destinatario(falta salvar pro destinatario)
+                                                salvarMensagem(idUsuarioDestinatario, idUsuarioRemetente, mensagem);
+                                                //Salvar conversa para o remetente
+                                                // tem que recuperar usuario exibicao
+                                                salvarConversa( idUsuarioRemetente, idUsuarioDestinatario, usuarioDestinatario,  mensagem, false);
+                                                //Salvar conversa para o destinatario
+                                                salvarConversa(  idUsuarioDestinatario, idUsuarioRemetente, usuarioRemetente,  mensagem, true);
+
+                                                enviarNotificacao();
+                                                progressDialogImage.dismiss();
+                                                dialogLayout.dismiss();
+                                                finish();
+                                            }
+                                        });
+                                    }
+                                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+
+                                        double progresso = (100.0 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
+                                        progressDialogImage.setMessage("Enviando: " + (int) progresso + "" + "%");
+                                    }
+                                });
+
+                            }
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                });
+
+                buttonNao.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialogLayout.dismiss();
+                        finish();
+                    }
+                });
+
+                dialogLayout.show();
+
+
+            } else if (bundle.containsKey("compartilharPDF")) {
+
+                // recuperar dados da empresa que mandou mensagem  ou usuario
+                Conversa conversaSelecionada = (Conversa) getIntent().getParcelableExtra("compartilharPDF");
+                idUsuarioDestinatario = conversaSelecionada.getIdDestinatario();
+                nomeUsuario = conversaSelecionada.getNomeUsuario();
+                fotoUsuario = conversaSelecionada.getFotoUsuario();
+                textViewNome.setText(nomeUsuario);
+                if (fotoUsuario.equals("")) {
+                    Log.d("null ", "foto vazia");
+
+                } else {
+                    Picasso.get()
+                            .load(fotoUsuario)
+                            .into(circleImageViewFoto);
+                }
+                // salvar dados usuario remetente
+                nomeUsuario = conversaSelecionada.getNomeUsuario();
+                idUsuarioRemetente = conversaSelecionada.getIdRemetente();
+
+                DatabaseReference databaseReferenceEmpresa = usuarioRef
+                        .child("usuario")
+                        .child(idUsuarioRemetente)
+                        .child("urlImagem");
+                databaseReferenceEmpresa.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String fotoUsuarioRef = snapshot.getValue().toString();
+                        fotoUsuario = fotoUsuarioRef;
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+                recuperarTokenDestinatario();
+
+                // compartilhar pdf
+                final ProgressDialog progressDialog = new ProgressDialog(this);
+                progressDialog.setTitle("Enviando...");
+                progressDialog.show();
+
+                //StorageReference reference = storage.child("/arquivos/"+System.currentTimeMillis()+".pdf");
+
+                // cria nome que não se repete
+                String nomePDF = UUID.randomUUID().toString();
+                // configurar referencia do firebase
+                final StorageReference documentoRef = storage.child("arquivos")
+                        .child("pdf")
+                        .child(idUsuarioRemetente)
+                        .child(nomePDF + (".pdf"));
+
+                documentoRef.putFile(conversaSelecionada.getArquivoCompartilhado()).addOnSuccessListener(taskSnapshot -> {
+                    Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                    while (!uriTask.isComplete()) ;
+                    Mensagem mensagem = new Mensagem();
+                    mensagem.setIdUsuario(idUsuarioRemetente);
+                    mensagem.setHoraConversa(HoraAtual.horaAtual());
+                    mensagem.setDataConversa(DataAtual.dataAtual());
+                    mensagem.setArquivo(nomePDF + (".pdf"));
+                    //Salvar mensagem para o remetente
+                    salvarMensagem(idUsuarioRemetente, idUsuarioDestinatario, mensagem);
+                    //Salvar mensagem para o destinatario
+                    salvarMensagem(idUsuarioDestinatario, idUsuarioRemetente, mensagem);
+                    //Salvar conversa para o remetente
+                    // tem que recuperar usuario exibicao
+                    salvarConversa( idUsuarioRemetente, idUsuarioDestinatario, usuarioDestinatario,  mensagem, false);
+                    //Salvar conversa para o destinatario
+                    salvarConversa(  idUsuarioDestinatario, idUsuarioRemetente, usuarioRemetente,  mensagem, true);
+
+
+                    enviarNotificacao();
+                    progressDialog.dismiss();
+                    finish();
+                }).addOnProgressListener(snapshot -> {
+                    double progresso = (100.0 * snapshot.getBytesTransferred()) / snapshot.getTotalByteCount();
+                    progressDialog.setMessage("Enviando: " + (int) progresso + "");
+                });
+
+
             }
 
 
@@ -242,7 +494,6 @@ public class ChatActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        enviarArquivoCompartilhado();
 
     }
 
@@ -606,44 +857,6 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
-
-
-    // recuperar arquivo compartilhado de outros apps
-    private void enviarArquivoCompartilhado(){
-        Bundle bundleImage = getIntent().getBundleExtra("compartilharImagem");
-        Bundle bundlePdf = getIntent().getBundleExtra("compartilharPdf");
-
-        if(bundleImage != null ){
-            if(bundleImage.containsKey("compartilharImagem")){
-                Toast.makeText(this, "imagem recuperado", Toast.LENGTH_SHORT).show();
-
-                // abri layout para a imagem compartilhada
-                BottomSheetDialog sheetDialog = new BottomSheetDialog(ChatActivity.this);
-                View bottomSheetView = LayoutInflater
-                        .from(ChatActivity.this)
-                        .inflate(R.layout.adapter_imagem_compartilhada, null);
-                sheetDialog.setContentView(bottomSheetView);
-                sheetDialog.setCancelable(true);
-
-                ImageView recuperarImagemCompaartilhada = bottomSheetView.findViewById(R.id.imageCompartilhada);
-
-
-                sheetDialog.setContentView(bottomSheetView);
-                sheetDialog.show();
-
-            }
-        }else{
-            Toast.makeText(this, " imagem Nullo", Toast.LENGTH_SHORT).show();
-        }
-
-        if(bundlePdf != null ){
-            if(bundlePdf.containsKey("compartilharPdf")){
-                Toast.makeText(this, "pdf recuperado", Toast.LENGTH_SHORT).show();
-            }
-        }else{
-            Toast.makeText(this, "pdf Nullo", Toast.LENGTH_SHORT).show();
-        }
-    }
 
 
 

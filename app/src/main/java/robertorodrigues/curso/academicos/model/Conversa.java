@@ -1,5 +1,7 @@
 package robertorodrigues.curso.academicos.model;
 
+import android.net.Uri;
+
 import com.google.firebase.database.DatabaseReference;
 
 import java.io.Serializable;
@@ -16,6 +18,8 @@ public class Conversa  implements Serializable {
     private String novaMensagem;
     private String tokenUsuario;
     private Usuario usuarioExibicao;
+
+    private Uri arquivoCompartilhado;
 
     public Conversa() {
 
@@ -96,5 +100,13 @@ public class Conversa  implements Serializable {
 
     public void setTokenUsuario(String tokenUsuario) {
         this.tokenUsuario = tokenUsuario;
+    }
+
+    public Uri getArquivoCompartilhado() {
+        return arquivoCompartilhado;
+    }
+
+    public void setArquivoCompartilhado(Uri arquivoCompartilhado) {
+        this.arquivoCompartilhado = arquivoCompartilhado;
     }
 }

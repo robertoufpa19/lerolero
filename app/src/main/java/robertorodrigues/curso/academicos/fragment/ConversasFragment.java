@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,8 +70,6 @@ public class ConversasFragment extends Fragment {
 
         idUsuarioLogado = UsuarioFirebase.getIdUsuario();
 
-        // recuperar arquivo compartilhado - inicio
-        Bundle bundleArquivo = getArguments();
 
         //Configurar adapter
         adapter = new ConversasAdapter(listaConversas, getActivity());
@@ -108,44 +109,39 @@ public class ConversasFragment extends Fragment {
                                 usuario.setFotoUsuario(fotoUsuario);
                                 usuario.setTokenUsuario(token);
 
-
-
                                     // recuperar conversa para compartilhar imagem
-                                    if (bundleArquivo.containsKey("compartilharImagem")) {
-                                       // Toast.makeText(getContext(), "Recuperou imagem "+ bundleArquivo, Toast.LENGTH_SHORT).show();
-                                       //Bundle bundle = new Bundle();
-                                        //bundle.putParcelable("compartilharImagem", bundleArquivo);
+                                if(conversaSelecionada != null){
 
-                                        Intent i = new Intent(getActivity(), ChatActivity.class);
-                                        i.putExtra("chat", usuario); // usuario exibicao
-                                        i.putExtra("compartilharImagem", bundleArquivo);
-                                        startActivity( i );
+                                    // recuperar arquivo compartilhado - inicio
+                                    Bundle bundleArquivo = getActivity().getIntent().getExtras();
+                                    if(bundleArquivo != null) {
+                                        if (bundleArquivo.containsKey("compartilharImagem")) {
+                                            Uri imagemSelecionada = (Uri) getActivity().getIntent().getParcelableExtra("compartilharImagem");
+                                            conversaSelecionada.setArquivoCompartilhado(imagemSelecionada);
+                                            Intent intentConversas = new Intent(getContext(), ChatActivity.class);
+                                            intentConversas.putExtra("compartilharImagem", usuario);
+                                            intentConversas.putExtra("compartilharImagem", conversaSelecionada);
+                                            startActivity(intentConversas);
+                                            Log.d("imagem ", imagemSelecionada.toString());
 
-                                    }//recuperar conversa para compartilhar PDF
-                                    else if (bundleArquivo.containsKey("compartilharPdf")) {
-                                       // Toast.makeText(getContext(), "Recuperou PDF "+ bundleArquivo, Toast.LENGTH_SHORT).show();
-                                       // Bundle bundle = new Bundle();
-                                       // bundle.putParcelable("compartilharPdf", bundleArquivo);
 
-                                        Intent i = new Intent(getActivity(), ChatActivity.class);
-                                        i.putExtra("chat", usuario); // usuario exibicao
-                                        i.putExtra("compartilharPdf", bundleArquivo);
-                                        startActivity( i );
+                                        } else if (bundleArquivo.containsKey("compartilharPDF")) {
+                                            Uri pdfSelecionado = (Uri) getActivity().getIntent().getParcelableExtra("compartilharPDF");
+                                            conversaSelecionada.setArquivoCompartilhado(pdfSelecionado);
+                                            Intent intentConversas = new Intent(getContext(), ChatActivity.class);
+                                            intentConversas.putExtra("compartilharPDF",   usuario);
+                                            intentConversas.putExtra("compartilharPDF", conversaSelecionada);
+                                            startActivity(intentConversas);
+                                            Log.d("pdf ", pdfSelecionado.toString());
+                                        }
+
                                     }else{
-                                       // Toast.makeText(getContext(), "Padrão"+ bundleArquivo, Toast.LENGTH_SHORT).show();
-
                                         Intent i = new Intent(getActivity(), ChatActivity.class);
-                                        //  i.putExtra("chat",  conversaSelecionada.getUsuarioExibicao()); // usuario exibicao
                                         i.putExtra("chat",  usuario); // usuario exibicao
                                         startActivity( i );
-
-                                        // mensagem visualizada e remove a notificacão de nova mensagem
-                                        conversaSelecionada.setNovaMensagem("false");
-                                        conversaSelecionada.salvarConversa();
-
                                     }
 
-                                // recuperar arquivo compartilhado - fim
+                                }
 
                             }
 

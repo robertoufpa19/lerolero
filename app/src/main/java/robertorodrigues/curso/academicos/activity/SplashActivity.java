@@ -5,11 +5,13 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,8 +39,7 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                //abrirAutenticacao();
-                verificarCompartilhamentoArquivo();
+               receberArquivoCompartilhado();
             }
         }, 4000); // 3 segundos
 
@@ -59,16 +60,10 @@ public class SplashActivity extends AppCompatActivity {
         String type = intent.getType();
 
         if (Intent.ACTION_SEND.equals(action) && type != null) {
-            if ("text/plain".equals(type)) {
-               // handleSendText(intent); // Lidar com o texto que está sendo enviado
-            } else if (type.startsWith("image/")) {
+             if (type.startsWith("image/*")) {
                 handleSendImage(intent); // Lidar com uma única imagem sendo enviada
             }else if (type.startsWith("application/pdf")) {
                 handleSendPdf(intent); // Lidar com um único pdf sendo enviada
-            }
-        } else if (Intent.ACTION_SEND_MULTIPLE.equals(action) && type != null) {
-            if (type.startsWith("image/")) {
-               // handleSendMultipleImages(intent); // Manipula várias imagens sendo enviadas
             }
         } else {
             // Lida com outras intenções, como iniciar na tela inicial
@@ -79,19 +74,73 @@ public class SplashActivity extends AppCompatActivity {
     }
 
 
+    @SuppressLint("MissingInflatedId")
+    public void receberArquivoCompartilhado() {
+        Intent intent = getIntent();
+        String action = intent.getAction();// abrir app normalmente ou a partir de compartilhamento de arquivos
+        String type = intent.getType(); // buscar o tipo de arquivo (imagem, pdf, etc...)
+
+        if (action.equals(Intent.ACTION_SEND) && type != null) {
+            if (type.startsWith("image/")) {
+                Uri imagemURI = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                if (imagemURI != null) {
+                    Intent intentConversas = new Intent(SplashActivity.this, ConversasActivity.class);
+                    intentConversas.putExtra("compartilharImagem", imagemURI);
+                    startActivity(intentConversas);
+                    Log.d("imagem ", imagemURI.toString());
+                } else {
+                    Log.d("null ", "imagem nullo");
+                }
+
+            } else if (type.startsWith("application/pdf")) {
+                Uri pdfURI = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+
+                if (pdfURI != null) {
+                    Intent intentConversas = new Intent(SplashActivity.this, ConversasActivity.class);
+                    intentConversas.putExtra("compartilharPDF", pdfURI);
+                    startActivity(intentConversas);
+                    Log.d("pdf ", pdfURI.toString());
+                } else {
+                    Log.d("null ", "pdf nullo");
+                }
+
+                // formatos de arquivo bin
+            }else if(type.startsWith("*/*")){
+
+                Uri imagemURI = intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                if (imagemURI != null) {
+                    Intent intentConversas = new Intent(SplashActivity.this, ConversasActivity.class);
+                    intentConversas.putExtra("compartilharImagem", imagemURI);
+                    startActivity(intentConversas);
+                    Log.d("imagem ", imagemURI.toString());
+                } else {
+                    Log.d("null ", "imagem nullo");
+                }
+            }
+        } else {
+            abrirAutenticacao();
+        }
+    }
+
+
     public void handleSendImage(Intent intent) {
         Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
         if (imageUri != null) {
             textLeroLero.setVisibility(View.GONE);
             // abrir fragment
-            FragmentManager fragmentManager = getSupportFragmentManager();
+           /* FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             Bundle bundle = new Bundle();
             bundle.putParcelable("compartilharImagem", imageUri);
             ConversasFragment conversasFragment = new ConversasFragment();
             conversasFragment.setArguments(bundle);
-            transaction.replace(R.id.constraintLeroLero, conversasFragment).commit();
+            transaction.replace(R.id.constraintLeroLero, conversasFragment).commit(); */
 
+            // abri activity conversas teste
+            Intent intentConversas = new Intent(this, ConversasActivity.class);
+            intentConversas.putExtra("compartilharImagem", imageUri);
+            startActivity(intentConversas);
+            Toast.makeText(this, "imagem", Toast.LENGTH_SHORT).show();
 
 
         }
