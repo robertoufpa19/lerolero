@@ -53,26 +53,6 @@ public class SplashActivity extends AppCompatActivity {
     }
 
 
-    public void verificarCompartilhamentoArquivo(){
-
-        Intent intent = getIntent();
-        String action = intent.getAction();
-        String type = intent.getType();
-
-        if (Intent.ACTION_SEND.equals(action) && type != null) {
-             if (type.startsWith("image/*")) {
-                handleSendImage(intent); // Lidar com uma única imagem sendo enviada
-            }else if (type.startsWith("application/pdf")) {
-                handleSendPdf(intent); // Lidar com um único pdf sendo enviada
-            }
-        } else {
-            // Lida com outras intenções, como iniciar na tela inicial
-            abrirAutenticacao();
-        }
-
-
-    }
-
 
     @SuppressLint("MissingInflatedId")
     public void receberArquivoCompartilhado() {
@@ -123,63 +103,5 @@ public class SplashActivity extends AppCompatActivity {
     }
 
 
-    public void handleSendImage(Intent intent) {
-        Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
-        if (imageUri != null) {
-            textLeroLero.setVisibility(View.GONE);
-            // abrir fragment
-           /* FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("compartilharImagem", imageUri);
-            ConversasFragment conversasFragment = new ConversasFragment();
-            conversasFragment.setArguments(bundle);
-            transaction.replace(R.id.constraintLeroLero, conversasFragment).commit(); */
-
-            // abri activity conversas teste
-            Intent intentConversas = new Intent(this, ConversasActivity.class);
-            intentConversas.putExtra("compartilharImagem", imageUri);
-            startActivity(intentConversas);
-            Toast.makeText(this, "imagem", Toast.LENGTH_SHORT).show();
-
-
-        }
-    }
-
-    public void handleSendPdf(Intent intent) {
-        Uri pdfUri  = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
-
-        if (pdfUri  != null) {
-            textLeroLero.setVisibility(View.GONE);
-            // abrir fragment
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction transaction = fragmentManager.beginTransaction();
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("compartilharPdf", pdfUri);
-            ConversasFragment conversasFragment = new ConversasFragment();
-            conversasFragment.setArguments(bundle);
-            transaction.replace(R.id.constraintLeroLero, conversasFragment).commit();
-
-
-        }
-    }
-
-    public void handleSendMultipleImages(Intent intent) {
-        ArrayList<Uri> imageUris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
-        if (imageUris != null) {
-            // Atualize a interface do usuário para refletir várias imagens sendo compartilhadas
-            //Toast.makeText(this, "multiplas imagens", Toast.LENGTH_SHORT).show();
-
-        }
-    }
-
-    public void handleSendText(Intent intent) {
-        String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
-        if (sharedText != null) {
-            // Atualizar a interface do usuário para refletir o texto que está sendo compartilhado
-            // Toast.makeText(this, "texto recuperado", Toast.LENGTH_SHORT).show();
-
-        }
-    }
 
 }

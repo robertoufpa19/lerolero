@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -48,6 +50,9 @@ public class FeedFragment extends Fragment {
     private String idUsuarioLogado;
 
     private AlertDialog dialog;
+
+    private ProgressBar progressBarFeed;
+    private TextView textSemPostagem;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -107,7 +112,8 @@ public class FeedFragment extends Fragment {
         recyclerFeed.setHasFixedSize(true);
         recyclerFeed.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerFeed.setAdapter(adapterFeed);
-
+        progressBarFeed = view.findViewById(R.id.progressBarFeed);
+        textSemPostagem = view.findViewById(R.id.textSemPostagem);
 
 
        return  view;
@@ -119,24 +125,22 @@ public class FeedFragment extends Fragment {
         listaFeed.clear();
 
         // carregamento dados usuarios
-        dialog = new SpotsDialog.Builder()
-                .setContext(getContext())
-                .setMessage("Carregando Ultimas Postagens")
-                .setCancelable(false)
-                .build();
-        dialog.show();
-
+        progressBarFeed.setVisibility(View.VISIBLE);
         valueEventListenerFeed = feedRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                for(DataSnapshot ds: snapshot.getChildren()){
-                    listaFeed.add(ds.getValue(Feed.class));
+                if(snapshot.exists()){
+                    for(DataSnapshot ds: snapshot.getChildren()){
+                        listaFeed.add(ds.getValue(Feed.class));
+                    }
+                    // ordenar por postagens recente
+                    Collections.reverse(listaFeed);
+                    adapterFeed.notifyDataSetChanged();
+                    progressBarFeed.setVisibility(View.GONE);
+                }else{
+                  textSemPostagem.setVisibility(View.VISIBLE);
                 }
-                // ordenar por postagens recente
-                Collections.reverse(listaFeed);
-                adapterFeed.notifyDataSetChanged();
-                dialog.dismiss();
 
             }
 
