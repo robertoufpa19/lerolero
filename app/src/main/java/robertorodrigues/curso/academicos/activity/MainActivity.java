@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         // configurar toolbar
         Toolbar toolbar = findViewById(R.id.toolbarPrincipal);
-        toolbar.setTitle("Lero Lero");
+        toolbar.setTitle("Lero Interaction ");
         setSupportActionBar(toolbar);
 
        // inicializar componentes

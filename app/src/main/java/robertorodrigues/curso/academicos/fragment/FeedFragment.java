@@ -140,6 +140,7 @@ public class FeedFragment extends Fragment {
                     progressBarFeed.setVisibility(View.GONE);
                 }else{
                   textSemPostagem.setVisibility(View.VISIBLE);
+                    progressBarFeed.setVisibility(View.GONE);
                 }
 
             }

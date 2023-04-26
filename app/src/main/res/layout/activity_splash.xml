@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="interaction "
+        android:text="Interaction "
         android:textColor="@color/white"
         android:textSize="30sp"
         android:textStyle="bold|italic"

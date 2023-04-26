@@ -34,7 +34,7 @@
             android:layout_marginBottom="32dp"
             android:fontFamily="sans-serif-condensed-medium"
             android:gravity="center"
-            android:text="  Lero-Lero \n Cadastro"
+            android:text="  Lero \n Interaction "
             android:textColor="#FFFFFF"
             android:textSize="34sp"
             android:textStyle="bold|italic"
