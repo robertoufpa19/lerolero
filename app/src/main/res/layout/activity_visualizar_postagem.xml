@@ -85,16 +85,6 @@
                 app:icon_type="heart" />
 
 
-            <TextView
-                android:id="@+id/textQtdComentarioAmigo"
-                android:layout_width="10sp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="0"
-                android:textStyle="bold|italic"
-                android:textColor="#36BCFA"
-                android:textSize="16sp" />
-
             <ImageView
                 android:id="@+id/imageComentariosPostagemAmigo"
                 android:layout_width="30dp"
