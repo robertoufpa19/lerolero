@@ -133,6 +133,7 @@ public class LojasFragment extends Fragment {
                                         //Intent i = new Intent(getContext(), DetalhesProdutoActivity.class);
                                        // i.putExtra("anuncioSelecionado", anuncioSelecionado);
                                        // startActivity(i);
+                                        exibirMensagem("falta implementar o clique");
 
                                     }else{
                                         exibirMensagem("Configure seu Perfil, antes de ver produtos");
@@ -180,7 +181,7 @@ public class LojasFragment extends Fragment {
         buttonLimparFiltro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                recuperarAnunciosPublicos();
+              exibirMensagem("falta implementar");
             }
         });
 
@@ -391,41 +392,31 @@ public class LojasFragment extends Fragment {
 
     public void recuperarAnunciosPublicos(){
 
-        dialog = new SpotsDialog.Builder()
-                .setContext(getContext())
-                .setMessage("Recuperando Anuncios!")
-                .setCancelable(false)
-                .build();
-        dialog.show();
-
         anunciosPublicosRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 listaAnuncios.clear();
 
-                if(snapshot.getValue() != null){ // se tiver anuncios
+                if(snapshot.exists()){
+                    if(snapshot.getValue() != null){ // se tiver anuncios
 
-                    for(DataSnapshot estados: snapshot.getChildren()){ // percorre cada no de estados e seus filhos(categoria e anuncios)
-                        for(DataSnapshot categorias: estados.getChildren()){ // pecorre cada categoria de um estado
-                            for(DataSnapshot anuncios: categorias.getChildren()){ // percorre anuncios(id) de cada categoria
-                                Anuncio anuncio = anuncios.getValue(Anuncio.class);
-                                listaAnuncios.add(anuncio);
+                        for(DataSnapshot estados: snapshot.getChildren()){ // percorre cada no de estados e seus filhos(categoria e anuncios)
+                            for(DataSnapshot categorias: estados.getChildren()){ // pecorre cada categoria de um estado
+                                for(DataSnapshot anuncios: categorias.getChildren()){ // percorre anuncios(id) de cada categoria
+                                    Anuncio anuncio = anuncios.getValue(Anuncio.class);
+                                    listaAnuncios.add(anuncio);
 
+                                }
                             }
                         }
+                        Collections.reverse(listaAnuncios); // exibicao reversa dos anuncios
+                        adapterAnuncios.notifyDataSetChanged();
+
+                    }else if(snapshot.getValue() == null){ // senao tiver anuncios
+                        exibirMensagem("Você não tem anuncios!");
                     }
-                    Collections.reverse(listaAnuncios); // exibicao reversa dos anuncios
-                    adapterAnuncios.notifyDataSetChanged();
-                    dialog.dismiss();
-
-                }else if(snapshot.getValue() == null){ // senao tiver anuncios
-                    exibirMensagem("Você não tem anuncios!");
-                    dialog.dismiss();
                 }
-
-
-
 
             }
 
@@ -449,7 +440,7 @@ public class LojasFragment extends Fragment {
                 .child("usuarios")
                 .child(idUsuarioLogado);
         // recupera dados uma unica vez
-        usuarioRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        usuarioRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
