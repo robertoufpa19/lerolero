@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -17,6 +19,12 @@
         android:roundIcon="@mipmap/ic_logo_lero_lero_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Academicos">
+        <activity
+            android:name=".activity.CadastrarAnuncioActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.MeusAnunciosActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.ConversasActivity"
             android:exported="false" />
@@ -61,35 +69,41 @@
             <!-- receber e compartilhar imagem de outros apps -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="image/*" />
             </intent-filter>
 
             <!-- receber e compartilhar imagem de outros apps -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="*/*" />
             </intent-filter>
 
             <!-- receber e compartilhar pdf de outros apps -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="application/pdf" />
             </intent-filter>
+        </activity>
 
-</activity>
-
-<service android:name=".service.MyFirebaseMessagingService">
-    <intent-filter>
-        <action android:name="com.google.firebase.MESSAGING_EVENT" />
-    </intent-filter>
-</service>
-<!--
+        <service android:name=".service.MyFirebaseMessagingService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <!--
 Defina o ícone padrão personalizado. Isso é usado quando nenhum ícone é definido para mensagens de notificação de entrada.
 Veja README (https://goo.gl/l4GJaQ) para mais.
--->
+        -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/logosemnomeacademicos" />

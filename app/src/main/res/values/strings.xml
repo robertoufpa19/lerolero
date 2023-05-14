@@ -5,4 +5,53 @@
     <string name="default_web_client_id2" translatable="false">1002656669763-pkmtksqqi3hcho7n0o0aeco0m01drpnm.apps.googleusercontent.com</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="regiao">
+        <item> Belém </item>
+        <item> Cametá </item>
+        <item> Mocajuba </item>
+        <item> Tucuruí </item>
+        <item> Ananindeua </item>
+        <item> Castanhal </item>
+        <item> Abaetetuba </item>
+        <item> Bragança </item>
+        <item> Barcarena </item>
+        <item> Curralinho </item>
+        <item> Salinópolis </item>
+        <item> Baião </item>
+        <item> Oeiras </item>
+        <item> Portel </item>
+        <item> Igarapé-Miri </item>
+        <item> Capanema </item>
+        <item> Benevideis </item>
+        <item> Moju </item>
+        <item> Breves </item>
+        <item> Paragominas </item>
+        <item> Altamira </item>
+        <item> Tailândia </item>
+        <item> Parauapebas </item>
+        <item> Marabá </item>
+        <item> Santarém </item>
+        <item> Tomé-Açu </item>
+        <item> Vigia </item>
+    </string-array>
+
+    <string-array name="categorias">
+        <item>  Informática </item>
+        <item> Concursos </item>
+        <item> Automóveis </item>
+        <item> Imóveis </item>
+        <item> Eletrônicos </item>
+        <item>  Moda infantil </item>
+        <item> Moda Masculina </item>
+        <item> Moda Femenina </item>
+        <item> Esportes  </item>
+        <item>  Música </item>
+        <item>  Infantil  </item>
+        <item> Culinária </item>
+        <item> Bebida </item>
+        <item> Livros  </item>
+        <item> Lazer  </item>
+    </string-array>
+
 </resources>

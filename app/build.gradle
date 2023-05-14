@@ -3,12 +3,12 @@ plugins {
 }
 
 android {
-    compileSdk 30
+    compileSdk 33
 
     defaultConfig {
         applicationId "robertorodrigues.curso.academicos"
         minSdkVersion 23
-        targetSdk 30
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -50,7 +50,7 @@ dependencies {
 
     // dependencias navigation buttonEX
     implementation 'com.github.ittianyu:BottomNavigationViewEx:1.2.4'
-    implementation "com.android.support:design:30.+"
+
 
     // circleImageView
     implementation 'de.hdodenhof:circleimageview:2.2.0'
@@ -86,6 +86,24 @@ dependencies {
 
     // zoom
     implementation 'com.github.MikeOrtiz:TouchImageView:1.4.1'
+
+    // dependencia mascara de moeda
+    implementation 'me.abhinay.input:currency-edittext:1.1'
+
+    //Dependencia mascara telefone
+    implementation 'com.github.santalu:mask-edittext:1.0.7'
+
+    // dependencia dialog de progresso
+    implementation 'com.github.d-max:spots-dialog:1.1@aar'
+
+    // dependencia  Picasso // imagem
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    // dependencia  carrosel view
+    implementation 'com.synnapps:carouselview:0.1.5'
+
+    // avaliacao por estrela
+    implementation 'com.github.ome450901:SimpleRatingBar:1.4.1'
 
 
 }
