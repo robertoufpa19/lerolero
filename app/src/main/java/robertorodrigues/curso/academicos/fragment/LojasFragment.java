@@ -86,16 +86,11 @@ public class LojasFragment extends Fragment {
         inicializarComponentes(view);
         //configuracoes iniciais
         autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
-        anunciosPublicosRef = ConfiguracaoFirebase.getFirebaseDatabase()
-                .child("anuncios");
-
-        firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
-
-
 
         // criar condição para verificar se usuario esta logado
         if(autenticacao.getCurrentUser() != null) { //logado
             idUsuarioLogado = UsuarioFirebase.getIdUsuario();
+            firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
             recuperarDadosUsuario();
 
         }else{
@@ -164,6 +159,14 @@ public class LojasFragment extends Fragment {
                 )
         );
 
+        buttonLimparFiltro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onStart(); // volta aos dados do inicio mesmo depois de aplicar filtros
+                recuperarAnunciosPublicos();
+            }
+        });
+
         buttonRegiao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -178,12 +181,6 @@ public class LojasFragment extends Fragment {
             }
         });
 
-        buttonLimparFiltro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-              exibirMensagem("falta implementar");
-            }
-        });
 
 
         return  view;
@@ -391,6 +388,9 @@ public class LojasFragment extends Fragment {
 
 
     public void recuperarAnunciosPublicos(){
+
+        anunciosPublicosRef = ConfiguracaoFirebase.getFirebaseDatabase()
+                .child("anuncios");
 
         anunciosPublicosRef.addValueEventListener(new ValueEventListener() {
             @Override
