@@ -1,11 +1,15 @@
 package robertorodrigues.curso.academicos.fragment;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -23,6 +27,7 @@ import java.io.ByteArrayOutputStream;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import robertorodrigues.curso.academicos.R;
+import robertorodrigues.curso.academicos.activity.CadastrarAnuncioActivity;
 import robertorodrigues.curso.academicos.activity.FiltroActivity;
 import robertorodrigues.curso.academicos.helper.Permissoes;
 import robertorodrigues.curso.academicos.helper.UsuarioFirebase;
@@ -44,16 +49,18 @@ public class PostagemFragment extends Fragment {
 
     private ImageView imageCameraPostagem, imageGaleriaPostagem;
 
-    private static final int SELECAO_CAMERA = 100;
-    private static final int SELECAO_GALERIA = 200;
+    private static final int SELECAO_CAMERA = 1;
+    private static final int SELECAO_GALERIA = 2;
 
 
-    private String[] permissoesNecessarias = new String[]{
-
+    private String[] permissoes = new String[]{
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.CAMERA
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA,
+            Manifest.permission.INTERNET,
+            Manifest.permission.ACCESS_WIFI_STATE,
+            Manifest.permission.ACCESS_NETWORK_STATE
     };
-
 
 
 
@@ -104,9 +111,6 @@ public class PostagemFragment extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_postagem, container, false);
 
-        // validar permissões
-        Permissoes.validarPermissoes(permissoesNecessarias, getActivity(), 1);
-
 
         // configurar componentes
         nomePerfilPostagem = view.findViewById(R.id.textPostagemNome1);
@@ -114,6 +118,9 @@ public class PostagemFragment extends Fragment {
         imageCameraPostagem = view.findViewById(R.id.imageCameraPostagem1);
         imageGaleriaPostagem =  view.findViewById(R.id.imageGaleriaPostagem1);
 
+        Permissoes.validarPermissoes(permissoes, getActivity(), 1);
+        Permissoes.validarPermissoes(permissoes, getActivity(), 2);
+        Permissoes.validarPermissoes(permissoes, getActivity(), 3);
 
 
         // recuperar dados do usuario inicio
@@ -210,6 +217,14 @@ public class PostagemFragment extends Fragment {
 
           }
 
+
+    }
+
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
 
     }
 }

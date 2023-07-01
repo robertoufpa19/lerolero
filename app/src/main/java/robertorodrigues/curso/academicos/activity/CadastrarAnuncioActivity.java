@@ -56,7 +56,11 @@ public class CadastrarAnuncioActivity extends AppCompatActivity implements View.
 
     private String[] permissoes = new String[]{
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.CAMERA
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA,
+            Manifest.permission.INTERNET,
+            Manifest.permission.ACCESS_WIFI_STATE,
+            Manifest.permission.ACCESS_NETWORK_STATE
     };
     private List<String> listaFotosRecuperadas = new ArrayList<>(); // lista o caminho de fotos no dispositivo do usuario
     private List<String> listaURLFotos = new ArrayList<>(); // lista o caminho de fotos no firebase
@@ -80,12 +84,13 @@ public class CadastrarAnuncioActivity extends AppCompatActivity implements View.
         setSupportActionBar(toolbar);
 
         //configuracoes iniciais
+        Permissoes.validarPermissoes(permissoes, CadastrarAnuncioActivity.this, 1);
+        Permissoes.validarPermissoes(permissoes, CadastrarAnuncioActivity.this, 2);
+        Permissoes.validarPermissoes(permissoes, CadastrarAnuncioActivity.this, 3);
+
         storage = ConfiguracaoFirebase.getFirebaseStorage();
         firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
         idUsuarioLogado = UsuarioFirebase.getIdUsuario();
-
-        //validar permissoes
-        Permissoes.validarPermissoes(permissoes, this, 1);
 
         inicializarComponentes();
         carregarDadosSpinner();
@@ -352,34 +357,6 @@ public class CadastrarAnuncioActivity extends AppCompatActivity implements View.
         campoValor.setTextLocale(locale);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        for( int permissaoResultado : grantResults){
-            if(permissaoResultado == PackageManager.PERMISSION_DENIED){
-                alertaValidarPermissao();
-            }
-        }
-    }
-
-
-    private void alertaValidarPermissao(){
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Permissoes Negadas");
-        builder.setMessage("Para utilizar o app e necessario aceitar as permissoes");
-        builder.setCancelable(false);
-        builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
 
     private void exibirMensagem(String texto){
         Toast.makeText(this, texto, Toast.LENGTH_SHORT).show();
@@ -404,5 +381,11 @@ public class CadastrarAnuncioActivity extends AppCompatActivity implements View.
 
 
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
     }
 }
