@@ -82,6 +82,8 @@ public class CadastrarAnuncioActivity extends AppCompatActivity implements View.
         Toolbar toolbar = findViewById(R.id.toolbarPrincipal);
         toolbar.setTitle("Cadastrar Anúncio");
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // configura botao voltar
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_fechar_24); // conficurar um botao personalizado
 
         //configuracoes iniciais
         Permissoes.validarPermissoes(permissoes, CadastrarAnuncioActivity.this, 1);
@@ -382,7 +384,12 @@ public class CadastrarAnuncioActivity extends AppCompatActivity implements View.
 
         }
     }
-
+    // ao clicar no icone X a activiy será finalizada
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return false;
+    }
     @Override
     protected void onStart() {
         super.onStart();

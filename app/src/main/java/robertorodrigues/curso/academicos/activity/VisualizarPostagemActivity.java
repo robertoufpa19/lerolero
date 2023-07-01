@@ -52,7 +52,7 @@ public class VisualizarPostagemActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); // configura botao voltar
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_voltar_24); // conficurar um botao personalizado
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_fechar_24); // conficurar um botao personalizado
 
 
         inicializarComponentes();

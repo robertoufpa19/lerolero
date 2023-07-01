@@ -54,6 +54,8 @@ public class MeusAnunciosActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbarPrincipal);
         toolbar.setTitle("Meus Anúncios");
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // configura botao voltar
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_fechar_24); // conficurar um botao personalizado
 
         firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
         idUsuarioLogado = UsuarioFirebase.getIdUsuario();
@@ -205,5 +207,12 @@ public class MeusAnunciosActivity extends AppCompatActivity {
 
     private void abrirConfiguracoes(){
         startActivity(new Intent(MeusAnunciosActivity.this, EditarPerfilActivity.class));
+    }
+
+    // ao clicar no icone X a activiy será finalizada
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return false;
     }
 }
