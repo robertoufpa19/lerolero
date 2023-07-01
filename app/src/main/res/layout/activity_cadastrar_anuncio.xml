@@ -6,9 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="10dp"
-    android:background="#F4EFEF"
+    android:background="#D8D5D5"
     android:orientation="vertical"
-    android:padding="16dp"
     tools:context=".activity.CadastrarAnuncioActivity">
 
 
@@ -19,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:textColor="@color/black"
         android:text="Selecionar Imagens"
         android:textStyle="italic" />
 
@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/purple_700"
+            android:backgroundTint="@color/black"
             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
         <TextView
@@ -98,7 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="@color/purple_700"
+            android:backgroundTint="@color/black"
             tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
     </LinearLayout>
 
@@ -112,8 +112,8 @@
         android:hint="Titulo"
         android:inputType="textPersonName"
         android:padding="10dp"
-        android:textColor="@color/colorPrimary"
-        android:textColorHint="@color/purple_700"
+        android:textColor="@color/black"
+        android:textColorHint="@color/cinza_medio"
         tools:ignore="TouchTargetSizeCheck" />
 
 
@@ -127,8 +127,8 @@
         android:hint="Valor"
         android:inputType="number"
         android:padding="10dp"
-        android:textColor="@color/colorPrimary"
-        android:textColorHint="@color/purple_700"
+        android:textColor="@color/black"
+        android:textColorHint="@color/cinza_medio"
         tools:ignore="TouchTargetSizeCheck">
 
     </me.abhinay.input.CurrencyEditText>
@@ -144,8 +144,8 @@
         android:hint="Telefone"
         android:inputType="phone"
         android:padding="10dp"
-        android:textColor="@color/colorPrimary"
-        android:textColorHint="@color/purple_700"
+        android:textColor="@color/black"
+        android:textColorHint="@color/cinza_medio"
         app:met_mask="(##)#####-####"
         tools:ignore="TouchTargetSizeCheck" />
 
@@ -160,8 +160,8 @@
         android:hint="Descricao"
         android:inputType="textPersonName"
         android:padding="10dp"
-        android:textColor="@color/colorPrimary"
-        android:textColorHint="@color/purple_700" />
+        android:textColor="@color/black"
+        android:textColorHint="@color/cinza_medio" />
 
     <Button
         android:id="@+id/buttonCadastrarAnuncio"
@@ -170,8 +170,10 @@
         android:backgroundTint="#AE6801"
         android:onClick="validarDadosAnuncios"
         android:padding="16dp"
-        android:background="@drawable/bg_edit_text"
-        android:text="Cadastrar Anuncio"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        android:background="@drawable/fundo_botao"
+        android:text="Cadastrar Anúncio"
         android:textColor="@color/black"
         app:iconTint="#00BCD4" />
     <ProgressBar
