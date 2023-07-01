@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#DBF3F2F2"
+    android:background="@drawable/fundo_feed"
+    android:layout_margin="5dp"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
     android:orientation="vertical">
 
 
@@ -62,7 +62,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginBottom="10dp"
                 android:text="Descrição"
-                android:textColor="#575757"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
 
             <ImageView

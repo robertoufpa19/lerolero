@@ -68,7 +68,13 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
         holder.nome.setText(feed.getNomeUsuario());
 
         Uri uriFotoPostagem = Uri.parse(feed.getFotoPostagem());
-        holder.descricao.setText(feed.getDescricao());
+
+        if(feed.getDescricao().equals("") || feed.getDescricao().equals(null)){
+            holder.descricao.setVisibility(View.GONE);
+        }else{
+            holder.descricao.setText(feed.getDescricao());
+        }
+
 
          // foto perfil usuario
         if(feed.getFotoUsuario() != null){
