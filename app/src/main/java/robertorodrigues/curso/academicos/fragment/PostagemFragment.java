@@ -198,7 +198,7 @@ public class PostagemFragment extends Fragment {
                       // converter imagem em byte array
                       // fazer upload da imagem para o firebase storage
                       ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                      imagem.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+                      imagem.compress(Bitmap.CompressFormat.JPEG, 60, baos);
                       byte[] dadosImagem = baos.toByteArray();
 
                       // enviar imagem escolhida para aplicação de filtro
