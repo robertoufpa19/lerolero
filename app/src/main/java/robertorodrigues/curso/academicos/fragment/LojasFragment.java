@@ -38,6 +38,7 @@ import java.util.List;
 import dmax.dialog.SpotsDialog;
 import robertorodrigues.curso.academicos.R;
 import robertorodrigues.curso.academicos.activity.ConversasActivity;
+import robertorodrigues.curso.academicos.activity.DetalhesProdutoActivity;
 import robertorodrigues.curso.academicos.activity.EditarPerfilActivity;
 import robertorodrigues.curso.academicos.activity.LoginActivity;
 import robertorodrigues.curso.academicos.activity.MeusAnunciosActivity;
@@ -125,10 +126,9 @@ public class LojasFragment extends Fragment {
                                         List<Anuncio> listaAnunciosAtualizado = adapterAnuncios.getAnuncios();
 
                                         Anuncio anuncioSelecionado = listaAnunciosAtualizado.get(position); // seleciona anuncio que foi buscado de forma correta seja na pesquisa ou não
-                                        //Intent i = new Intent(getContext(), DetalhesProdutoActivity.class);
-                                       // i.putExtra("anuncioSelecionado", anuncioSelecionado);
-                                       // startActivity(i);
-                                        exibirMensagem("falta implementar o clique");
+                                        Intent i = new Intent(getContext(), DetalhesProdutoActivity.class);
+                                        i.putExtra("anuncioSelecionado", anuncioSelecionado);
+                                        startActivity(i);
 
                                     }else{
                                         exibirMensagem("Configure seu Perfil, antes de ver produtos");

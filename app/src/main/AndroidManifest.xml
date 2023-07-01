@@ -20,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Academicos">
         <activity
+            android:name=".activity.DetalhesProdutoActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.CadastrarAnuncioActivity"
             android:exported="false" />
         <activity
@@ -94,7 +97,8 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".service.MyFirebaseMessagingService"
+        <service
+            android:name=".service.MyFirebaseMessagingService"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
