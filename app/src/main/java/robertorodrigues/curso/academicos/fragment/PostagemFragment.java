@@ -49,8 +49,8 @@ public class PostagemFragment extends Fragment {
 
     private ImageView imageCameraPostagem, imageGaleriaPostagem;
 
-    private static final int SELECAO_CAMERA = 1;
-    private static final int SELECAO_GALERIA = 2;
+    private static final int SELECAO_CAMERA = 100;
+    private static final int SELECAO_GALERIA = 200;
 
 
     private String[] permissoes = new String[]{
@@ -119,8 +119,6 @@ public class PostagemFragment extends Fragment {
         imageGaleriaPostagem =  view.findViewById(R.id.imageGaleriaPostagem1);
 
         Permissoes.validarPermissoes(permissoes, getActivity(), 1);
-        Permissoes.validarPermissoes(permissoes, getActivity(), 2);
-        Permissoes.validarPermissoes(permissoes, getActivity(), 3);
 
 
         // recuperar dados do usuario inicio
@@ -200,7 +198,7 @@ public class PostagemFragment extends Fragment {
                       // converter imagem em byte array
                       // fazer upload da imagem para o firebase storage
                       ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                      imagem.compress(Bitmap.CompressFormat.JPEG, 70, baos);
+                      imagem.compress(Bitmap.CompressFormat.JPEG, 50, baos);
                       byte[] dadosImagem = baos.toByteArray();
 
                       // enviar imagem escolhida para aplicação de filtro
