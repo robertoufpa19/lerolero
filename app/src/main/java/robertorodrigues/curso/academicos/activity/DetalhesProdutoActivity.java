@@ -46,7 +46,8 @@ public class DetalhesProdutoActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbarPrincipal);
         toolbar.setTitle("Detalhes do Produto");
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // configura botao voltar
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_fechar_24); // conficurar um botao personalizado
         // inicializar componentes
         inicializarComponentes();
         idUsuarioLogado = UsuarioFirebase.getIdUsuario();
@@ -156,7 +157,12 @@ public class DetalhesProdutoActivity extends AppCompatActivity {
         buttonIniciarConversa = findViewById(R.id.buttonAbrirChat);
 
     }
-
+    // ao clicar no icone X a activiy será finalizada
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return false;
+    }
     private void exibirMensagem(String texto){
         Toast.makeText(this, texto, Toast.LENGTH_SHORT).show();
     }

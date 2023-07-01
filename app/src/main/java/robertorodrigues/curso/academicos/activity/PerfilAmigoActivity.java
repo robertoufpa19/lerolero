@@ -109,7 +109,23 @@ public class PerfilAmigoActivity extends AppCompatActivity {
                   }else{
                       imagePerfilAmigo.setImageResource(R.drawable.perfil);
                   }
+                   if(idUsuarioLogado.equals(usuarioSelecionado.getIdUsuario())){
+                       botaoEnviarMensagem.setVisibility(View.GONE);
+                       buttonSeguirPerfil.setVisibility(View.GONE);
+                   }else{
+                       botaoEnviarMensagem.setVisibility(View.VISIBLE);
+                       buttonSeguirPerfil.setVisibility(View.VISIBLE);
+                       botaoEnviarMensagem.setOnClickListener(new View.OnClickListener() {
+                           @Override
+                           public void onClick(View v) {
 
+                               Intent intent = new Intent( PerfilAmigoActivity.this, ChatActivity.class);
+                               intent.putExtra("usuarioSelecionadoAmigo", usuarioSelecionado);
+                               startActivity(intent);
+
+                           }
+                       });
+                   }
 
 
               }else if(bundle.containsKey("comentarioUsuarioSelecionado")){
@@ -158,17 +174,6 @@ public class PerfilAmigoActivity extends AppCompatActivity {
         });
 
 
-
-        botaoEnviarMensagem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent( PerfilAmigoActivity.this, ChatActivity.class);
-                intent.putExtra("usuarioSelecionadoAmigo", usuarioSelecionado);
-                startActivity(intent);
-
-            }
-        });
     }
 
     // metodo para verificar se ja estou seguindo um usuario(amigo)
