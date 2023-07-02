@@ -75,15 +75,35 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
             holder.descricao.setText(feed.getDescricao());
         }
 
+        // recuperar foto de  perfil amigo
+        DatabaseReference usuarioRef =  ConfiguracaoFirebase.getFirebaseDatabase()
+                .child("usuarios")
+                .child(feed.getIdUsuario())
+                .child("fotoUsuario");
+        usuarioRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-         // foto perfil usuario
-        if(feed.getFotoUsuario() != null){
-            Picasso.get()
-                    .load(Uri.parse(feed.getFotoUsuario()))
-                    .into(holder.fotoPerfil);
-        }else{
-            holder.fotoPerfil.setImageResource(R.drawable.perfil);
-        }
+                String fotoPerfilAmigo =  snapshot.getValue().toString();
+               if(snapshot.exists()){
+                   if(fotoPerfilAmigo != null){
+                       Picasso.get()
+                               .load(Uri.parse(fotoPerfilAmigo))
+                               .into(holder.fotoPerfil);
+                   }else{
+                       holder.fotoPerfil.setImageResource(R.drawable.perfil);
+                   }
+               }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
         // foto postada usuario
         Picasso.get()
                 .load(uriFotoPostagem)

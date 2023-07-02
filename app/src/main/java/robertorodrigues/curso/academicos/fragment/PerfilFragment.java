@@ -284,16 +284,33 @@ public class PerfilFragment extends Fragment {
                     textSeguindo.setText(seguindo);
                     textSeguidores.setText(seguidores);
 
-                    // recuperar foto de perfil do usuario
-                    FirebaseUser usuarioPerfil = UsuarioFirebase.getUsuarioAtual();
-                    Uri url = usuarioPerfil.getPhotoUrl();
-                    if(url != null){
-                        Picasso.get()
-                                .load(url)
-                                .into(imagePerfil);
-                    }else{
-                        imagePerfil.setImageResource(R.drawable.perfil);
-                    }
+                    DatabaseReference usuarioRef =  ConfiguracaoFirebase.getFirebaseDatabase()
+                            .child("usuarios")
+                            .child(usuario.getIdUsuario())
+                            .child("fotoUsuario");
+                    usuarioRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                            String fotoPerfil =  snapshot.getValue().toString();
+                            if(snapshot.exists()){
+                                if(fotoPerfil != null){
+                                    Picasso.get()
+                                            .load(Uri.parse(fotoPerfil))
+                                            .into(imagePerfil);
+                                }else{
+                                    imagePerfil.setImageResource(R.drawable.perfil);
+                                }
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
 
                     dialog.dismiss();
 

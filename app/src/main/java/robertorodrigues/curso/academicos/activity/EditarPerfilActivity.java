@@ -275,6 +275,8 @@ public class EditarPerfilActivity extends AppCompatActivity {
                         }
                     });
 
+                }else{
+                    exibirMensagem("não alterou a foto de perfil");
                 }
 
             }catch (Exception e){
