@@ -103,12 +103,47 @@ public class PerfilAmigoActivity extends AppCompatActivity {
                   // configurar nome do usuario amigo na toolbra
                   getSupportActionBar().setTitle(usuarioSelecionado.getNomeUsuario());
                   // recuperar foto de perfil amigo
-                  String url = usuarioSelecionado.getFotoUsuario();
+
+                  //configura foto de usuarios no comentario
+
+                  // recuperar foto de  perfil amigo
+                  DatabaseReference usuarioRef =  ConfiguracaoFirebase.getFirebaseDatabase()
+                          .child("usuarios")
+                          .child(usuarioSelecionado.getIdUsuario())
+                          .child("fotoUsuario");
+                  usuarioRef.addValueEventListener(new ValueEventListener() {
+                      @Override
+                      public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                          String fotoPerfilAmigo =  snapshot.getValue().toString();
+                          if(snapshot.exists()){
+                              if(fotoPerfilAmigo != null){
+                                  Picasso.get()
+                                          .load(Uri.parse(fotoPerfilAmigo))
+                                          .into(imagePerfilAmigo);
+                              }else{
+                                  imagePerfilAmigo.setImageResource(R.drawable.perfil);
+                              }
+                          }
+
+                      }
+
+                      @Override
+                      public void onCancelled(@NonNull DatabaseError error) {
+
+                      }
+                  });
+
+
+                  /*String url = usuarioSelecionado.getFotoUsuario();
                   if(url != null){
                       Picasso.get().load(url).into(imagePerfilAmigo);
                   }else{
                       imagePerfilAmigo.setImageResource(R.drawable.perfil);
-                  }
+                  }*/
+
+
+
                    if(idUsuarioLogado.equals(usuarioSelecionado.getIdUsuario())){
                        botaoEnviarMensagem.setVisibility(View.GONE);
                        buttonSeguirPerfil.setVisibility(View.GONE);

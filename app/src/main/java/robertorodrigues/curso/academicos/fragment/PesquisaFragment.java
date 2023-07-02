@@ -90,7 +90,7 @@ public class PesquisaFragment extends Fragment {
                     public void onItemClick(View view, int position) {
                         Usuario usuarioSelecionado = listaUsuarios.get(position);
                         Intent i = new Intent(getActivity(), PerfilAmigoActivity.class);
-                        i.putExtra("usuarioSelecionado", usuarioSelecionado);
+                        i.putExtra("usuarioSelecionadoAmigo", usuarioSelecionado);
                         startActivity(i);
 
                     }
