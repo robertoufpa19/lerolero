@@ -1,10 +1,17 @@
 package robertorodrigues.curso.academicos.fragment;
 
+import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,6 +39,7 @@ import java.util.List;
 
 import dmax.dialog.SpotsDialog;
 import robertorodrigues.curso.academicos.R;
+import robertorodrigues.curso.academicos.activity.PermissaoNotificacaoActivity;
 import robertorodrigues.curso.academicos.adapter.AdapterFeed;
 import robertorodrigues.curso.academicos.helper.ConfiguracaoFirebase;
 import robertorodrigues.curso.academicos.helper.UsuarioFirebase;
@@ -63,6 +71,13 @@ public class FeedFragment extends Fragment {
     private TextView textSemPostagem;
 
     private DatabaseReference firebaseRef;
+
+
+    private String[] permissions = new String[] {
+            Manifest.permission.POST_NOTIFICATIONS
+    };
+
+    private boolean permission_post_notification = false;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -110,7 +125,9 @@ public class FeedFragment extends Fragment {
         // Inflate the layout for this fragment
        View view = inflater.inflate(R.layout.fragment_feed, container, false);
 
+
         // configurações iniciais
+        verificarPermissaoNotificacao();
         idUsuarioLogado = UsuarioFirebase.getIdUsuario();
         firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
         feedRef = ConfiguracaoFirebase.getFirebaseDatabase()
@@ -215,4 +232,44 @@ public class FeedFragment extends Fragment {
         super.onStop();
         feedRef.removeEventListener(valueEventListenerFeed);
     }
+
+
+    public void verificarPermissaoNotificacao() {
+        if (!permission_post_notification) {
+            permissaoNotificacao();
+        }else {
+            Toast.makeText(getContext(), "Notificação permitida", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void permissaoNotificacao() {
+        if (ContextCompat.checkSelfPermission(getContext(), permissions[0]) == PackageManager.PERMISSION_GRANTED) {
+            permission_post_notification = true;
+        }else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                    Log.d("Permission", "inside else first time dont allow");
+                }else {
+                    Log.d("Permission", "inside else 2nd time dont allow");
+                }
+
+                requestPermissionLauncherNotification.launch(permissions[0]);
+            }
+        }
+    }
+
+    private final ActivityResultLauncher<String> requestPermissionLauncherNotification =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), result -> {
+                if (result) {
+                    permission_post_notification = true;
+                }else {
+                    permission_post_notification = false;
+                    showPermissionDialog();
+                }
+            });
+
+    private void showPermissionDialog() {
+        startActivity(new Intent(getContext(), PermissaoNotificacaoActivity.class));
+    }
+
 }

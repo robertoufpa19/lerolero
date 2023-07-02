@@ -120,9 +120,29 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
                 usuario.setFotoUsuario(fotoUsuario);
                 // usuario.setTokenUsuario(token);
 
-                Intent i = new Intent(context, PerfilAmigoActivity.class);
-                i.putExtra("usuarioSelecionado", usuario );
-                context.startActivity(i);
+                // recuperar token
+                DatabaseReference usuarioRef =  ConfiguracaoFirebase.getFirebaseDatabase()
+                        .child("usuarios")
+                        .child(idUsuario)
+                        .child("tokenUsuario");
+                usuarioRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        String tokenUsuario =  snapshot.getValue().toString();
+                        usuario.setTokenUsuario(tokenUsuario);
+                        Intent i = new Intent(context, PerfilAmigoActivity.class);
+                        i.putExtra("usuarioSelecionadoAmigo", usuario );
+                        context.startActivity(i);
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
 
             }
         });
@@ -187,6 +207,7 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
 
 
 
+
     }
 
     @Override
@@ -228,4 +249,7 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
 
         }
     }
+
+
+
 }

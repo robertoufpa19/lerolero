@@ -920,7 +920,7 @@ public class ChatActivity extends AppCompatActivity {
             if(bundleToken.containsKey("usuarioSelecionadoAmigo")){
 
 
-                usuarioDestinatario = (Usuario) bundleToken.getSerializable("chat");
+                usuarioDestinatario = (Usuario) bundleToken.getSerializable("usuarioSelecionadoAmigo");
                 // token = usuarioDestinatario.getTokenUsuario();
                 // recuperar token do NO usuarios
                 usuarioRef =  ConfiguracaoFirebase.getFirebaseDatabase()
@@ -987,7 +987,7 @@ public class ChatActivity extends AppCompatActivity {
             to = tokenDestinatario ;
 
             //Monta objeto notificação
-            Notificacao notificacao = new Notificacao("Lero Lero", "Nova Mensagem de" + usuarioRemetente.getNomeUsuario());
+            Notificacao notificacao = new Notificacao("Lero", "Nova Mensagem de " + usuarioRemetente.getNomeUsuario());
             NotificacaoDados notificacaoDados = new NotificacaoDados(to, notificacao );
 
             NotificacaoService service = retrofit.create(NotificacaoService.class);
@@ -1043,7 +1043,7 @@ public class ChatActivity extends AppCompatActivity {
             to = tokenDestinatario ;
 
             //Monta objeto notificação
-            Notificacao notificacao = new Notificacao("Lero Lero", "Nova Mensagem de" + usuarioRemetente.getNomeUsuario());
+            Notificacao notificacao = new Notificacao("Lero", "Nova Mensagem de " + usuarioRemetente.getNomeUsuario());
             NotificacaoDados notificacaoDados = new NotificacaoDados(to, notificacao );
 
             NotificacaoService service = retrofit.create(NotificacaoService.class);

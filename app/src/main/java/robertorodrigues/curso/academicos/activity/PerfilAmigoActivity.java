@@ -89,9 +89,9 @@ public class PerfilAmigoActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
           if(bundle != null){
 
-              if(bundle.containsKey("usuarioSelecionado")){
+              if(bundle.containsKey("usuarioSelecionadoAmigo")){
 
-                  usuarioSelecionado = (Usuario) bundle.getSerializable("usuarioSelecionado");
+                  usuarioSelecionado = (Usuario) bundle.getSerializable("usuarioSelecionadoAmigo");
 
 
                   // busca informações do NO postagens no firebase

@@ -107,11 +107,30 @@ public class ComentariosActivity extends AppCompatActivity {
                         usuario.setIdUsuario(idUsuario);
                         usuario.setNomeUsuario(nomeUsuario);
                         usuario.setFotoUsuario(fotoUsuario);
+                        // recuperar token
+                        DatabaseReference usuarioRef =  ConfiguracaoFirebase.getFirebaseDatabase()
+                                .child("usuarios")
+                                .child(idUsuario)
+                                .child("tokenUsuario");
+                        usuarioRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                String tokenUsuario =  snapshot.getValue().toString();
+                                usuario.setTokenUsuario(tokenUsuario);
+                                Intent i = new Intent(ComentariosActivity.this, PerfilAmigoActivity.class);
+                                i.putExtra("usuarioSelecionadoAmigo",  usuario);
+                                startActivity(i);
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                         // usuario.setTokenUsuario(token);
 
-                        Intent i = new Intent(ComentariosActivity.this, PerfilAmigoActivity.class);
-                        i.putExtra("usuarioSelecionado",  usuario);
-                        startActivity(i);
 
                     }
 
