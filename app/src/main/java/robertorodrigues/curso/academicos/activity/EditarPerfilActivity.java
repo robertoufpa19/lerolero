@@ -113,28 +113,44 @@ public class EditarPerfilActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String nomeAtualizado = editarNomePerfil.getText().toString();
-                // atualizar nome no perfil
-                UsuarioFirebase.atualizarNomeUsuario(nomeAtualizado);
-                // atualizar nome no banco de dados
-                usuarioLogado.setNomeUsuario(nomeAtualizado);
-                usuarioLogado.atualizar(); // atualizar dados do perfil
-                // falta atualizar o nome no feed
 
-               // String foto = urlImagemSelecionada;
+                // inicio re-cadastro do token usuario
+                FirebaseMessaging.getInstance().getToken()
+                        .addOnCompleteListener(new OnCompleteListener<String>() {
+                            @Override
+                            public void onComplete(@NonNull Task<String> task) {
+                                if (!task.isSuccessful()) {
+                                    Log.w("Cadastro token", "Fetching FCM registration token failed", task.getException());
+                                    return;
+                                }
+                                // Get new FCM registration token
+                                String token = task.getResult();
+                                usuarioLogado.setTokenUsuario(token);
+                                String nomeAtualizado = editarNomePerfil.getText().toString();
+                                // atualizar nome no perfil
+                                UsuarioFirebase.atualizarNomeUsuario(nomeAtualizado);
+                                // atualizar nome no banco de dados
+                                usuarioLogado.setNomeUsuario(nomeAtualizado);
+                                usuarioLogado.atualizar(); // atualizar dados do perfil
+                                // falta atualizar o nome no feed
+
+                                // String foto = urlImagemSelecionada;
               /*  if(url != null){
                  UsuarioFirebase.atualizarFotoUsuario(url);
                 }else{
                    exibirMensagem("Configure uma foto de perfil!");
                 } */
-                if(urlImagemSelecionada != null){
-                    UsuarioFirebase.atualizarFotoUsuario(Uri.parse(urlImagemSelecionada));
-                }else{
-                    exibirMensagem("Configure uma foto de perfil!");
-                }
+                                if(urlImagemSelecionada != null){
+                                    UsuarioFirebase.atualizarFotoUsuario(Uri.parse(urlImagemSelecionada));
+                                }else{
+                                    exibirMensagem("Configure uma foto de perfil!");
+                                }
 
-                exibirMensagem("Dados atualizado!");
-                finish(); // inalizar a activity
+                                exibirMensagem("Dados atualizado!");
+                                finish(); // inalizar a activity
+
+                            }
+                        });    // fim re-cadastro do token
 
             }
         });
@@ -249,22 +265,6 @@ public class EditarPerfilActivity extends AppCompatActivity {
                                     urlImagemSelecionada = url.toString();
                                     atualizarFotoUsuario(Uri.parse(urlImagemSelecionada));
                                     // falta atualizar a foto no feed
-
-                                    // inicio re-cadastro do token usuario
-                                    FirebaseMessaging.getInstance().getToken()
-                                            .addOnCompleteListener(new OnCompleteListener<String>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<String> task) {
-                                                    if (!task.isSuccessful()) {
-                                                        Log.w("Cadastro token", "Fetching FCM registration token failed", task.getException());
-                                                        return;
-                                                    }
-                                                    // Get new FCM registration token
-                                                    String token = task.getResult();
-                                                    usuarioLogado.setTokenUsuario(token);
-
-                                                }
-                                            });    // fim re-cadastro do token
 
                                 }
                             });
