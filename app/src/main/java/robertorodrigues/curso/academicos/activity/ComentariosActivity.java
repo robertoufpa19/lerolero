@@ -110,7 +110,7 @@ public class ComentariosActivity extends AppCompatActivity {
                         // usuario.setTokenUsuario(token);
 
                         Intent i = new Intent(ComentariosActivity.this, PerfilAmigoActivity.class);
-                        i.putExtra("comentarioUsuarioSelecionado",  usuario);
+                        i.putExtra("usuarioSelecionado",  usuario);
                         startActivity(i);
 
                     }
