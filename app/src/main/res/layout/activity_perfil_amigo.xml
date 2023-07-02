@@ -9,7 +9,7 @@
     android:orientation="vertical"
     tools:context=".activity.PerfilAmigoActivity">
 
-   <LinearLayout
+   <androidx.constraintlayout.widget.ConstraintLayout
        android:layout_width="match_parent"
        android:layout_height="match_parent"
        android:layout_marginStart="8dp"
@@ -22,11 +22,23 @@
        app:layout_constraintStart_toStartOf="parent"
        app:layout_constraintTop_toTopOf="parent">
 
-      <include layout="@layout/toolbar" />
+      <include
+          android:id="@+id/include2"
+          layout="@layout/toolbar"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent" />
 
-      <include layout="@layout/fragment_perfil_amigo" />
+      <include
+          layout="@layout/fragment_perfil_amigo"
+          android:layout_width="0dp"
+          android:layout_height="0dp"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/include2" />
 
-   </LinearLayout>
+   </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
