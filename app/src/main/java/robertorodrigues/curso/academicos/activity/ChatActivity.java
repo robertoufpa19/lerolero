@@ -151,13 +151,42 @@ public class ChatActivity extends AppCompatActivity {
                 fotoUsuario = usuarioDestinatario.getFotoUsuario();
 
                 textViewNome.setText(nomeUsuario);
-                if(fotoUsuario != null){
+
+                //configurar foto do destinatario
+                DatabaseReference usuarioRef =  ConfiguracaoFirebase.getFirebaseDatabase()
+                        .child("usuarios")
+                        .child(usuarioDestinatario.getIdUsuario())
+                        .child("fotoUsuario");
+                usuarioRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        String fotoPerfilVendedor =  snapshot.getValue().toString();
+                        if(snapshot.exists()){
+                            if(fotoPerfilVendedor != null){
+                                Picasso.get()
+                                        .load(Uri.parse(fotoPerfilVendedor))
+                                        .into(circleImageViewFoto);
+                            }else{
+                               circleImageViewFoto.setImageResource(R.drawable.perfil);
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+              /*  if(fotoUsuario != null){
                     Picasso.get()
                             .load(fotoUsuario)
                             .into(circleImageViewFoto);
                 }else{
                     circleImageViewFoto.setImageResource(R.drawable.perfil);
-                }
+                }*/
 
 
                 idUsuarioDestinatario = usuarioDestinatario.getIdUsuario();
@@ -173,13 +202,41 @@ public class ChatActivity extends AppCompatActivity {
                 fotoUsuario = usuarioDestinatario.getFotoUsuario();
 
                 textViewNome.setText(nomeUsuario);
-                if(fotoUsuario != null){
+
+                //configurar foto destinatario
+                DatabaseReference usuarioRef =  ConfiguracaoFirebase.getFirebaseDatabase()
+                        .child("usuarios")
+                        .child(usuarioDestinatario.getIdUsuario())
+                        .child("fotoUsuario");
+                usuarioRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        String fotoPerfilVendedor =  snapshot.getValue().toString();
+                        if(snapshot.exists()){
+                            if(fotoPerfilVendedor != null){
+                                Picasso.get()
+                                        .load(Uri.parse(fotoPerfilVendedor))
+                                        .into(circleImageViewFoto);
+                            }else{
+                                circleImageViewFoto.setImageResource(R.drawable.perfil);
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+              /*  if(fotoUsuario != null){
                     Picasso.get()
                             .load( Uri.parse(fotoUsuario))
                             .into(circleImageViewFoto);
                 }else{
                     circleImageViewFoto.setImageResource(R.drawable.perfil);
-                }
+                }*/
 
 
                 idUsuarioDestinatario = usuarioDestinatario.getIdUsuario();

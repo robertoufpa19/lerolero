@@ -1,5 +1,6 @@
 package robertorodrigues.curso.academicos.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -12,11 +13,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
 import robertorodrigues.curso.academicos.R;
+import robertorodrigues.curso.academicos.helper.ConfiguracaoFirebase;
 import robertorodrigues.curso.academicos.helper.UsuarioFirebase;
 import robertorodrigues.curso.academicos.model.Anuncio;
 import robertorodrigues.curso.academicos.model.Usuario;
@@ -30,7 +36,7 @@ public class DetalhesProdutoActivity extends AppCompatActivity {
     private ImageView imageUsuarioDetalhesProduto;
     private Button buttonIniciarConversa;
 
-    private String idUsuarioLogado;
+    private String idUsuarioLogado,  fotoPerfilVendedor;
 
 
 
@@ -62,9 +68,37 @@ public class DetalhesProdutoActivity extends AppCompatActivity {
             preco.setText(anuncioSelecionado.getValor());
             nomeUsuarioDestalhesProduto.setText(anuncioSelecionado.getNomeVendedor());
 
-            //recuperar foto do vendedor
-            String  urlFotoUsuario = anuncioSelecionado.getFotoVendedor();
-            Picasso.get().load(urlFotoUsuario).into(imageUsuarioDetalhesProduto);
+            //configurar foto do vendedor
+            DatabaseReference usuarioRef =  ConfiguracaoFirebase.getFirebaseDatabase()
+                    .child("usuarios")
+                    .child(anuncioSelecionado.getIdUsuario())
+                    .child("fotoUsuario");
+            usuarioRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                    String fotoPerfilVendedorRef =  snapshot.getValue().toString();
+                    fotoPerfilVendedor = fotoPerfilVendedorRef;
+                    if(snapshot.exists()){
+                        if(fotoPerfilVendedorRef != null){
+                            Picasso.get()
+                                    .load(Uri.parse(fotoPerfilVendedorRef))
+                                    .into(imageUsuarioDetalhesProduto);
+                        }else{
+                            imageUsuarioDetalhesProduto.setImageResource(R.drawable.perfil);
+                        }
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+          //  String  urlFotoUsuario = anuncioSelecionado.getFotoVendedor();
+          //  Picasso.get().load(urlFotoUsuario).into(imageUsuarioDetalhesProduto);
 
 
             ImageListener imageListener =  new ImageListener() {
@@ -117,7 +151,7 @@ public class DetalhesProdutoActivity extends AppCompatActivity {
 
                     String idUsuario = anuncioSelecionado.getIdUsuario();
                     String nomeVendedor = anuncioSelecionado.getNomeVendedor();
-                    String fotoVendedor = anuncioSelecionado.getFotoVendedor();
+                   // String fotoVendedor = anuncioSelecionado.getFotoVendedor();
                     Usuario usuarioExibicao = anuncioSelecionado.getUsuarioExibicao();
                     String token = anuncioSelecionado.getUsuarioExibicao().getTokenUsuario();
 
@@ -127,7 +161,7 @@ public class DetalhesProdutoActivity extends AppCompatActivity {
                     anuncio.setIdAnuncio(anuncio.getIdAnuncio());
                     anuncio.setIdUsuario(idUsuario);
                     anuncio.setNomeVendedor(nomeVendedor);
-                    anuncio.setFotoVendedor(fotoVendedor);
+                    anuncio.setFotoVendedor(fotoPerfilVendedor);
                     anuncio.setUsuarioExibicao(usuarioExibicao);
                     anuncio.setTokenVendedor(token);
 
