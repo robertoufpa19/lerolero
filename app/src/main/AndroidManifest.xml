@@ -18,6 +18,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_logo_lero_lero_round"
         android:supportsRtl="true"
+        android:largeHeap="true"
         android:theme="@style/Theme.Academicos" >
         <activity
             android:name=".activity.DetalhesProdutoActivity"

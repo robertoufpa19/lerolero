@@ -19,11 +19,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
+import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import robertorodrigues.curso.academicos.R;
@@ -49,10 +51,10 @@ public class PostagemFragment extends Fragment {
 
     private ImageView imageCameraPostagem, imageGaleriaPostagem;
 
-    private static final int SELECAO_CAMERA = 100;
+   // private static final int SELECAO_CAMERA = 100;
     private static final int SELECAO_GALERIA = 200;
 
-
+   private  Uri localImagemSelecionada;
     private String[] permissoes = new String[]{
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -137,7 +139,7 @@ public class PostagemFragment extends Fragment {
     // recuperar dados do usuario fim
 
         // adicionar clique na camera
-        imageCameraPostagem.setOnClickListener(new View.OnClickListener() {
+      /*  imageCameraPostagem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -147,17 +149,20 @@ public class PostagemFragment extends Fragment {
                   }
 
             }
-        });
+        });*/
         // adicionar clique na galeria
         imageGaleriaPostagem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/*");
+                startActivityForResult(galleryIntent, SELECAO_GALERIA);
 
-                Intent intent = new Intent( Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+              /*  Intent intent = new Intent( Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 if(intent.resolveActivity(getActivity().getPackageManager())!= null){
                     startActivityForResult(intent, SELECAO_GALERIA);
-                }
+                }*/
 
             }
         });
@@ -180,14 +185,17 @@ public class PostagemFragment extends Fragment {
 
                   // validar tipo de selecão de imagem(camera ou galeria)
                   switch ( requestCode){
-                      case SELECAO_CAMERA:
+                     /* case SELECAO_CAMERA:
                           imagem =  (Bitmap) data.getExtras().get("data");
-                          break;
+                          break;*/
 
                       case SELECAO_GALERIA:
 
-                          Uri localImagemSelecionada = data.getData();
-                          imagem = MediaStore.Images.Media.getBitmap( getActivity().getContentResolver(), localImagemSelecionada);
+                          if (data != null && data.getData() != null) {
+                              localImagemSelecionada = data.getData();
+                              imagem = MediaStore.Images.Media.getBitmap( getActivity().getContentResolver(), localImagemSelecionada);
+
+                          }
 
 
                           break;
@@ -195,11 +203,14 @@ public class PostagemFragment extends Fragment {
 
                   // validar imagem selecionada
                   if(imagem != null){
-                      // converter imagem em byte array
-                      // fazer upload da imagem para o firebase storage
+                      // converter imagem em byte array e comprimir
+
                       ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                      imagem.compress(Bitmap.CompressFormat.JPEG, 60, baos);
+
+                      Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), localImagemSelecionada);
+                      imageBitmap.compress(Bitmap.CompressFormat.JPEG, 30, baos);
                       byte[] dadosImagem = baos.toByteArray();
+
 
                       // enviar imagem escolhida para aplicação de filtro
                        Intent i = new Intent(getActivity(), FiltroActivity.class);
