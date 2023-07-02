@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
-
+    <uses-permission-sdk-23 android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission-sdk-23 android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
     <uses-permission-sdk-23 android:name="android.permission.VIBRATE" /> <!-- <uses-permission-sdk-23 android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /> -->
     <uses-permission-sdk-23 android:name="android.permission.POST_NOTIFICATIONS" />
@@ -118,7 +118,7 @@ Veja README (https://goo.gl/l4GJaQ) para mais.
         -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/logosemnomeacademicos" />
+            android:resource="@drawable/icone_lero_lero" />
         <!--
             Defina a cor usada com mensagens de notificação de entrada. Isso é usado quando nenhuma cor é definida para o
               mensagem de notificação. Veja README (https://goo.gl/6BKBk7) para mais.
