@@ -21,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -69,7 +70,7 @@ public class LojasFragment extends Fragment {
     private String idUsuarioLogado;
     private DatabaseReference firebaseRef;
 
-
+  private TextView  textSemAnuncio;
 
 
     public LojasFragment() {
@@ -324,18 +325,28 @@ public class LojasFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 listaAnuncios.clear();
+          if(snapshot.exists()){
+              if(snapshot.getValue() != null){
+                  for(DataSnapshot categorias: snapshot.getChildren()){ // pecorre cada categoria de um estado
+                      for(DataSnapshot anuncios: categorias.getChildren()){ // percorre anuncios(id) de cada categoria
+                          Anuncio anuncio = anuncios.getValue(Anuncio.class);
+                          listaAnuncios.add(anuncio);
 
-                for(DataSnapshot categorias: snapshot.getChildren()){ // pecorre cada categoria de um estado
-                    for(DataSnapshot anuncios: categorias.getChildren()){ // percorre anuncios(id) de cada categoria
-                        Anuncio anuncio = anuncios.getValue(Anuncio.class);
-                        listaAnuncios.add(anuncio);
+                      }
+                  }
 
-                    }
-                }
+                  Collections.reverse(listaAnuncios);
+                  adapterAnuncios.notifyDataSetChanged();
+                  dialog.dismiss();
+              }else{
+                  textSemAnuncio.setVisibility(View.VISIBLE);
+                  dialog.dismiss();
+              }
+          }else{
+              textSemAnuncio.setVisibility(View.VISIBLE);
+              dialog.dismiss();
+          }
 
-                Collections.reverse(listaAnuncios);
-                adapterAnuncios.notifyDataSetChanged();
-                dialog.dismiss();
 
             }
 
@@ -366,15 +377,27 @@ public class LojasFragment extends Fragment {
 
                 listaAnuncios.clear();
 
-                for(DataSnapshot anuncios: snapshot.getChildren()){ // pecorre cada categoria de um estado
-                    Anuncio anuncio = anuncios.getValue(Anuncio.class);
-                    listaAnuncios.add(anuncio);
+                if(snapshot.exists()){
+                    textSemAnuncio.setVisibility(View.GONE);
+                    if(snapshot.getValue() != null){
+                        for(DataSnapshot anuncios: snapshot.getChildren()){ // pecorre cada categoria de um estado
+                            Anuncio anuncio = anuncios.getValue(Anuncio.class);
+                            listaAnuncios.add(anuncio);
 
+                        }
+
+                        Collections.reverse(listaAnuncios);
+                        adapterAnuncios.notifyDataSetChanged();
+                        dialog.dismiss();
+                    }else{
+                        textSemAnuncio.setVisibility(View.VISIBLE);
+                        dialog.dismiss();
+                    }
+
+                }else{
+                    textSemAnuncio.setVisibility(View.VISIBLE);
+                    dialog.dismiss();
                 }
-
-                Collections.reverse(listaAnuncios);
-                adapterAnuncios.notifyDataSetChanged();
-                dialog.dismiss();
 
             }
 
@@ -400,7 +423,7 @@ public class LojasFragment extends Fragment {
 
                 if(snapshot.exists()){
                     if(snapshot.getValue() != null){ // se tiver anuncios
-
+                        textSemAnuncio.setVisibility(View.GONE);
                         for(DataSnapshot estados: snapshot.getChildren()){ // percorre cada no de estados e seus filhos(categoria e anuncios)
                             for(DataSnapshot categorias: estados.getChildren()){ // pecorre cada categoria de um estado
                                 for(DataSnapshot anuncios: categorias.getChildren()){ // percorre anuncios(id) de cada categoria
@@ -414,8 +437,10 @@ public class LojasFragment extends Fragment {
                         adapterAnuncios.notifyDataSetChanged();
 
                     }else if(snapshot.getValue() == null){ // senao tiver anuncios
-                        exibirMensagem("Você não tem anuncios!");
+                        textSemAnuncio.setVisibility(View.VISIBLE);
                     }
+                }else{
+                    textSemAnuncio.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -541,6 +566,7 @@ public class LojasFragment extends Fragment {
         buttonCategoria = view.findViewById(R.id.buttonCategoria);
         buttonLimparFiltro = view.findViewById(R.id.buttonLimparFiltro);
         recyclerAnunciosPublicos = view.findViewById(R.id.recyclerAnunciosPublicos);
+        textSemAnuncio = view.findViewById(R.id.textSemAnuncio);
     }
 
     private void exibirMensagem(String texto){
