@@ -3,6 +3,7 @@ package robertorodrigues.curso.academicos.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import robertorodrigues.curso.academicos.R;
+import robertorodrigues.curso.academicos.helper.ConfiguracaoFirebase;
 import robertorodrigues.curso.academicos.model.Anuncio;
 
 
@@ -65,8 +71,35 @@ public class AdapterMeusAnuncios extends RecyclerView.Adapter<AdapterMeusAnuncio
         Picasso.get().load(urlCapa).into(holder.foto);
 
         //configurar foto do vendedor
-        String  urlFotoUsuario = anuncio.getFotoVendedor();
-        Picasso.get().load(urlFotoUsuario).into(holder.fotoVendedor);
+        // recuperar foto de  perfil amigo
+        DatabaseReference usuarioRef =  ConfiguracaoFirebase.getFirebaseDatabase()
+                .child("usuarios")
+                .child(anuncio.getIdUsuario())
+                .child("fotoUsuario");
+        usuarioRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                String fotoPerfilAmigo =  snapshot.getValue().toString();
+                if(snapshot.exists()){
+                    if(fotoPerfilAmigo != null){
+                        Picasso.get()
+                                .load(Uri.parse(fotoPerfilAmigo))
+                                .into(holder.fotoVendedor);
+                    }else{
+                        holder.fotoVendedor.setImageResource(R.drawable.perfil);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+      //  String  urlFotoUsuario = anuncio.getFotoVendedor();
+       // Picasso.get().load(urlFotoUsuario).into(holder.fotoVendedor);
 
         // botao excluir
         holder.botaoExcluir.setOnClickListener(new View.OnClickListener() {

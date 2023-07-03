@@ -58,12 +58,6 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
          holder.descricao.setText(anuncio.getDescricao());
          holder.nomeVendedor.setText(anuncio.getNomeVendedor());
 
-         //verificar se existe avaliações
-         if(anuncio.getAvaliacao() != null){
-             holder.avaliacao.setText(anuncio.getAvaliacao());
-         }else{
-             holder.avaliacao.setText("0");
-         }
 
          // pegar a primeira imagem da lista
         List<String> urlFotos = anuncio.getFotos();
@@ -114,7 +108,6 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
         TextView valor;
         ImageView foto;
         TextView descricao;
-        TextView avaliacao;
         TextView nomeVendedor;
         CircleImageView fotoVendedor;
 
@@ -126,7 +119,6 @@ public class AdapterAnuncios extends RecyclerView.Adapter<AdapterAnuncios.MyView
             valor  = itemView.findViewById(R.id.textPreco);
             foto = itemView.findViewById(R.id.imageAnuncio);
             descricao = itemView.findViewById(R.id.textDescricao);
-            avaliacao = itemView.findViewById(R.id.textAvaliacoes);
             nomeVendedor = itemView.findViewById(R.id.textNomeUsuarioAnuncio);
             fotoVendedor = itemView.findViewById(R.id.imagePerfilUsuarioAnuncio);
 

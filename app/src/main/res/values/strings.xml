@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Lero Interaction</string>
+    <string name="app_name">Lero</string>
     <string name="default_notification_channel_id">fcm_default_channel</string>
     <string name="app_ad_id">ca-app-pub-9224110911314505~5738012497</string>
     <string name="default_web_client_id2" translatable="false">1002656669763-pkmtksqqi3hcho7n0o0aeco0m01drpnm.apps.googleusercontent.com</string>

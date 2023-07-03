@@ -24,7 +24,7 @@ import robertorodrigues.curso.academicos.fragment.ConversasFragment;
 public class SplashActivity extends AppCompatActivity {
 
     private ConstraintLayout constraintLeroLero;
-    private TextView textLeroLero;
+
 
 
     @Override
@@ -34,7 +34,6 @@ public class SplashActivity extends AppCompatActivity {
 
         // getSupportActionBar().hide(); // esconder toolbar
         constraintLeroLero = findViewById(R.id.constraintLeroLero);
-        textLeroLero = findViewById(R.id.textLeroLero);
 
         new Handler().postDelayed(new Runnable() {
             @Override
